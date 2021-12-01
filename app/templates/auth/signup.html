@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+    <div class="container">
+        <form class="form" method="POST" action="/signup">
+            {{ form.hidden_tag() }}
+            <div class="form__group">
+                <p class="blue_box boxed"> {{ form.name() }} {{ form.name.label() }} </p>
+                <p class="orange_box boxed"> {{ form.username() }} {{ form.username.label() }} </p>
+                <p class="green_box boxed"> {{ form.email() }} {{ form.email.label() }} </p>
+                <p> {{ form.password() }} {{ form.password.label() }} </p>
+                <p> {{ form.repeat_password() }} {{ form.repeat_password.label() }} </p>
+                <p class="button_vertical"> {{ form.submit() }} </p>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
+`

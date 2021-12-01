@@ -1,0 +1,77 @@
+div.container {
+    margin-top: 230px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 350px;
+    background: #933C2E
+}
+
+.blue_box {
+    background: #44A7FE;
+}
+.orange_box {
+    background: #E58835;
+}
+
+.green_box {
+    background: #13A007;
+}
+
+p.boxed {
+    height: 50px;
+}
+
+.button_vertical {
+    background: #0FB3CD;
+    color: lightgrey;
+    width: 50px;
+    height: 25px;
+    border-radius: 12px;
+    padding: 4px;
+}
+
+.button_vertical:hover {
+    color: white;
+    background: #01DBFD;
+    transition: .5s;
+}
+
+.button_vertical:active {
+    background: white;
+    transition: .5s;
+}
+div.form__group {
+    margin-left: auto;
+    margin-right: auto;
+    height: 90%;
+    width: 90%;
+    background: red;
+}
+
+.form {
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+}
+
+.warning {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: #eb061b;
+    text-align: center;
+    color: white;
+    margin-top: 20px;
+    height: 50px;
+    width: 80%;
+}
+
+.profile_container {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    background: #3DBB52;
+    height: 800px;
+    width: 860px;
+}

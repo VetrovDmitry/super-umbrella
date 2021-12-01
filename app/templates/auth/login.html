@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+    <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="warning">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
+        <form class="form" method="POST" action="/login">
+            {{ form.hidden_tag() }}
+            <div class="form__group">
+                <p class="green_box boxed"> {{ form.email() }} {{ form.email.label() }} </p>
+                <p> {{ form.password() }} {{ form.password.label() }} </p>
+                <p class="button_vertical"> {{ form.submit() }} </p>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

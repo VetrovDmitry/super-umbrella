@@ -1,0 +1,35 @@
+.shell {
+    background: black;
+    color: white;
+    width: 860px;
+    height: 200px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+}
+
+.news_container {
+    width: 860px;
+    height: 400px;
+    margin-top: 25px;
+    margin-left: auto;
+    margin-right: auto;
+    background: transparent;
+}
+
+.news_element {
+    float: left;
+    width: 250px;
+    height: 350px;
+    margin-left: 27px;
+    margin-top: 25px;
+    background: #F34242;
+    color: white;
+}
+
+.picture_element{
+    width:250px;
+    height: 250px;
+   background: black;
+   color:white;
+}
