@@ -1,10 +1,30 @@
 {% extends "base.html" %}
 {% block content %}
 <section>
-    <div class="profile_container">
-        User info
-        <img src="{{ url_for('static', filename=avatar) }}" alt="profile_image">
+    <div class="info_cascade">
+        <div class="info_box">
+            photo
+        </div>
+        <div class="info_box">
+            <div class="info_line">
+                email
+            </div>
+            <div class="info_line">
+                username
+            </div>
+            <div class="info_line">
+                date
+            </div>
+            <a class="button_s" href="/upload-avatar">
+                <div class="info_line">
+                    Settings
+                </div>
+            </a>
 
+        </div>
     </div>
+    <hr>
+
+
 </section>
 {% endblock %}

@@ -8,7 +8,6 @@ from .forms import SignupForm, LoginForm, UploadAvatarForm
 import os
 
 
-
 UPLOAD_DIR = 'app/static/uploads/'
 SECOND_PATH = 'static/uploads/'
 

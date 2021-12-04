@@ -75,3 +75,55 @@ div.form__group {
     height: 800px;
     width: 860px;
 }
+
+.info_box {
+    float: left;
+    width: 400px;
+    height: 260px;
+    margin-left: 20px;
+    margin-top: 20px;
+    background: #FF9052;
+
+}
+
+.info_cascade {
+    width: 860px;
+    height: 300px;
+    background: transparent;
+    margin-left: auto;
+    margin-right: auto;
+}
+body {
+    background: #13CE66;
+}
+hr {
+    width: 80%;
+    min-width: 860px;
+    height: 5px;
+    background: #FF9052;
+    border-radius: 5px;
+    border: none;
+}
+.info_line {
+    width: 68%;
+    background: #13CE66;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 25px;
+    text-align: center;
+}
+
+.button_s {
+    width: 68%;
+    color: lightgrey;
+    transition: .5s;
+}
+
+.button_s:hover {
+    color: white;
+}
+
+.button_s:active {
+    color: #FF9052;
+}
+
