@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block content %}
+<section>
+  <div class="container">
+        <form class="form" method="POST" action="/change-username">
+            {{ form.hidden_tag() }}
+            <div class="form__group">
+                <p class="green_box boxed"> {{ form.new_username() }} {{ form.new_username.label() }} </p>
+                <p class="button_vertical"> {{ form.submit() }} </p>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

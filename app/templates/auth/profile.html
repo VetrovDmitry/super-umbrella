@@ -7,15 +7,18 @@
         </div>
         <div class="info_box">
             <div class="info_line">
-                email
+                {{ data['email'] }}
             </div>
             <div class="info_line">
-                username
+                {{ data['name'] }}
             </div>
             <div class="info_line">
-                date
+                {{ data['username'] }}
             </div>
-            <a class="button_s" href="/upload-avatar">
+            <div class="info_line">
+                {{ data['date'] }}
+            </div>
+            <a class="button_s" href="/settings">
                 <div class="info_line">
                     Settings
                 </div>

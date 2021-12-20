@@ -22,3 +22,13 @@ class LoginForm(FlaskForm):
 class UploadAvatarForm(FlaskForm):
     avatar = FileField('avatar', validators=[FileRequired()])
     submit = SubmitField('upload')
+
+
+class ChangeUsernameForm(FlaskForm):
+    new_username = StringField("new username", validators=[DataRequired()])
+    submit = SubmitField("change")
+
+
+class ChangePasswordForm(FlaskForm):
+    new_password = PasswordField("new password", validators=[DataRequired()])
+    submit = SubmitField("change")

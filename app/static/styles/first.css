@@ -7,6 +7,10 @@ div.container {
     background: #933C2E
 }
 
+h1 {
+    text-align: center;
+    color: white;
+}
 .blue_box {
     background: #44A7FE;
 }
@@ -127,3 +131,12 @@ hr {
     color: #FF9052;
 }
 
+.setting_bar{
+    background: #FF9052;
+    height: 200px;
+    width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 200px;
+
+}

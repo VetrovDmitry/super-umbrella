@@ -4,7 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import datetime, time
 from .models import db, User, Avatar
-from .forms import SignupForm, LoginForm, UploadAvatarForm
+from .forms import SignupForm, LoginForm, UploadAvatarForm, ChangeUsernameForm, ChangePasswordForm
 import os
 
 
@@ -79,7 +79,14 @@ def logout():
 def profile():
     avatar = Avatar.query.filter_by(user_id=current_user.id).first()
     avatar_path = 'uploads/' + avatar.path
-    return render_template('auth/profile.html', avatar=avatar_path)
+    user = User.query.filter_by(id=current_user.get_id()).first()
+    user_data = {
+        'username': user.username,
+        'name': user.name,
+        'date': str(user.date_registered).split(' ')[0],
+        'email': user.email
+    }
+    return render_template('auth/profile.html', avatar=avatar_path, data=user_data)
 
 
 @auth.route('/upload-avatar', methods=['POST', 'GET'])
@@ -107,3 +114,38 @@ def upload_avatar():
 @auth.route('/index')
 def index():
     return render_template('auth/index.html')
+
+
+@auth.route('/settings')
+def settings():
+    return render_template('auth/settings.html')
+
+
+@auth.route("/change-username", methods=['POST', 'GET'])
+def change_username():
+    form = ChangeUsernameForm()
+
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=current_user.get_id()).first()
+        user.username = form.new_username.data
+        db.session.commit()
+        return redirect(url_for('auth.profile'))
+
+    return render_template("auth/changeusername.html", form=form)
+
+
+@auth.route("/change-password")
+def change_password():
+    form = ChangePasswordForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(id=current_user.get_id()).first()
+        user.hash = generate_password_hash(form.new_password.data, method='sha256')
+        db.session.commit()
+        return redirect(url_for("auth.profile"))
+
+    return render_template("auth/changepassword.html", form=form)
+
+@auth.route('/valuta')
+def valuta():
+    return render_template('auth/valuta.html')
+
