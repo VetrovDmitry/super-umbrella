@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} Room  {% endblock %}
+
+{% block content %}
+<section>
+    <div class="chat_box">
+        <div class="messages_block">
+            <div class="messages">
+                {% for message in messages %}
+                <div class="message_line">
+                    <div class="message">
+                        {{ message.member_name }}: {{ message.content }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class="members">
+
+            </div>
+        </div>
+        <div class="input_line">
+            <form method="post" action="{{url_for('chat.room', room_id=room_id)}}" autocomplete="off">
+                {{ form.hidden_tag() }}
+                <div class="input_message">
+                    {{ form.content() }}
+                </div>
+                <div class="send_button">
+                    {{ form.submit() }}
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

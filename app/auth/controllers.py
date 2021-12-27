@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import datetime, time
 from .models import db, User, Avatar
+from app.chat.models import Member
 from .forms import SignupForm, LoginForm, UploadAvatarForm, ChangeUsernameForm, ChangePasswordForm
 import os
 
@@ -42,6 +43,9 @@ def signup():
         }
         new_user = User(new_user_worksheet)
         db.session.add(new_user)
+        db.session.commit()
+        new_member = Member(new_user.id)
+        db.session.add(new_member)
         db.session.commit()
         return redirect(url_for('auth.login'))
 

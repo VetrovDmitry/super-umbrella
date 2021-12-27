@@ -16,6 +16,7 @@ def create_app():
     login_manager.init_app(app)
 
     from .auth.models import User
+    from .chat.models import Member, Membership, Room, Message
 
     @login_manager.user_loader
     def load_user(user_id):
@@ -27,5 +28,9 @@ def create_app():
     import app.auth.controllers as auth_blueprint
 
     app.register_blueprint(auth_blueprint.auth)
+
+    import app.chat.controllers as chat_blueprint
+
+    app.register_blueprint(chat_blueprint.chat)
 
     return app

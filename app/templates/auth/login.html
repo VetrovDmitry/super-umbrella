@@ -9,7 +9,7 @@
         </div>
         {% endif %}
         {% endwith %}
-        <form class="form" method="POST" action="/login">
+        <form class="form" method="POST" action="/login" autocomplete="off">
             {{ form.hidden_tag() }}
             <div class="form__group">
                 <p class="green_box boxed"> {{ form.email() }} {{ form.email.label() }} </p>

@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-
-</body>
-</html>
+<div>
+    <form method="post" action="/create-room" autocomplete="off">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title() }} {{ form.title.label() }}
+        </p>
+        <p>
+            {{ form.details() }} {{ form.details.label() }}
+        </p>
+        <p>
+            {{ form.submit() }}
+        </p>
+    </form>
+</div>
