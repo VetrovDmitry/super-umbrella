@@ -1,10 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %} Chats {% endblock %}
 
-</body>
-</html>
+{% block content %}
+<section>
+    <div class="join_room">
+        <form method="post" action="{{ url_for('chat.leave_room', room_id=room_id) }}">
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.submit() }}
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

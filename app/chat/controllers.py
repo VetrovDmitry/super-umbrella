@@ -23,7 +23,19 @@ def access_required(func):
         member_id = current_user.id
         membership = Membership.query.filter_by(room_id=room_id, member_id=member_id).all()
         if len(membership) == 0:
-            return 'not have access'
+            return redirect(url_for('chat.join_room', room_id=room_id))
+        return func(room_id, *args, **kwargs)
+
+    return decorated_view
+
+
+def membership_required(func):
+    @wraps(func)
+    def decorated_view(room_id, *args, **kwargs):
+        member_id = current_user.id
+        membership = Membership.query.filter_by(room_id=room_id, member_id=member_id).all()
+        if len(membership) != 0:
+            return redirect(url_for('chat.room', room_id=room_id))
         return func(room_id, *args, **kwargs)
 
     return decorated_view
@@ -32,7 +44,7 @@ def access_required(func):
 chat = Blueprint('chat', __name__)
 
 
-@chat.route('/index')
+@chat.route('/chat')
 @login_required
 def index():
     return render_template('chat/index.html')
@@ -42,7 +54,7 @@ def index():
 @login_required
 def create_room():
     form = CreateRoomForm()
-
+    user = User.query.get(current_user.id)
     if form.validate_on_submit():
         member_id = Member.query.get(current_user.id).id
         title = form.title.data
@@ -52,6 +64,9 @@ def create_room():
         db.session.commit()
         membership = Membership(member_id, new_room.id)
         db.session.add(membership)
+        db.session.commit()
+        message = Message(0, '{} created room'.format(user.username), new_room.id)
+        db.session.add(message)
         db.session.commit()
         return redirect(url_for('chat.room', room_id=new_room.id))
 
@@ -75,18 +90,40 @@ def room(room_id):
 
     ready_messages = list()
     for message in messages:
-        user = User.query.get(message.member_id)
+        if message.member_id == 0:
+            member_name = 'bot'
+        else:
+            user = User.query.get(message.member_id)
+            member_name = user.username
+
         ready_messages.append({
             'content': message.content,
-            'member_name': user.username
+            'member_name': member_name
         })
-    return render_template('chat/room.html', form=form, room_id=room_id, messages=ready_messages, member_id=member_id)
+
+    memberships = current_room.memberships
+    mems = list()
+    for membership in memberships:
+        mems.append(User.query.get(membership.member_id).username)
+    return render_template('chat/room.html', form=form, members=mems, room_id=room_id, messages=ready_messages, member_id=member_id)
 
 
 @chat.route('/join-room/<room_id>', methods=['POST', 'GET'])
 @login_required
+@room_required
+@membership_required
 def join_room(room_id):
     form = JoinRoomForm()
+    user = User.query.get(current_user.id)
+    if form.validate_on_submit():
+        new_membership = Membership(current_user.id, room_id)
+        db.session.add(new_membership)
+        db.session.commit()
+        message = Message(0, "{} Has joined this room".format(user.username), room_id)
+        db.session.add(message)
+        db.session.commit()
+        return redirect(url_for('chat.room', room_id=room_id))
+
     return render_template('chat/joinroom.html', form=form, room_id=room_id)
 
 
@@ -96,4 +133,14 @@ def join_room(room_id):
 @access_required
 def leave_room(room_id):
     form = LeaveRoomForm()
-    return render_template('chat/leaveroom.html', form=form)
+    if form.validate_on_submit():
+        local_membership = Membership.query.filter_by(room_id=room_id, member_id=current_user.id).first()
+        user = User.query.get(current_user.id)
+        db.session.delete(local_membership)
+        db.session.commit()
+        message= Message(0, "{} Has left this room".format(user.username), room_id)
+        db.session.add(message)
+        db.session.commit()
+        return redirect(url_for("chat.index"))
+    return render_template('chat/leaveroom.html', form=form, room_id=room_id)
+

@@ -15,7 +15,12 @@
                 {% endfor %}
             </div>
             <div class="members">
-
+                <a class="button" href="{{ url_for('chat.leave_room', room_id=room_id) }}">
+                    Leave room
+                </a>
+                {% for member in members %}
+                <p>{{member}}</p>
+                {% endfor %}
             </div>
         </div>
         <div class="input_line">

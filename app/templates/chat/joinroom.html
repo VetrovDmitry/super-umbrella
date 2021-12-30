@@ -5,7 +5,10 @@
 <section>
     <div class="join_room">
         <form method="post" action="{{ url_for('chat.join_room', room_id=room_id) }}">
-
+            {{ form.hidden_tag() }}
+            <div>
+                {{ form.submit() }}
+            </div>
         </form>
     </div>
 </section>

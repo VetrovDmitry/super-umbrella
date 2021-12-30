@@ -212,3 +212,9 @@ div.message {
 .right_side {
     float: right;
 }
+
+a.button {
+    background: white;
+    border-radius: 5px;
+    color: black;
+}
