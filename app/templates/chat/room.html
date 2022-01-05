@@ -5,21 +5,21 @@
 <section>
     <div class="chat_box">
         <div class="messages_block">
-            <div class="messages">
+            <div class="messages scroll">
                 {% for message in messages %}
                 <div class="message_line">
-                    <div class="message">
+                    <div class="message left_side">
                         {{ message.member_name }}: {{ message.content }}
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            <div class="members">
+            <div class="members scroll">
                 <a class="button" href="{{ url_for('chat.leave_room', room_id=room_id) }}">
                     Leave room
                 </a>
                 {% for member in members %}
-                <p>{{member}}</p>
+                <div class="member">{{member}}</div>
                 {% endfor %}
             </div>
         </div>

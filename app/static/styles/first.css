@@ -98,7 +98,7 @@ div.form__group {
     margin-right: auto;
 }
 body {
-    background: #13CE66;
+    background: #3EBEC3;
 }
 hr {
     width: 80%;
@@ -142,7 +142,7 @@ hr {
 }
 
 div.chat_box {
-    background: green;
+    background: transparent;
     width: 860px;
     height: 550px;
     margin-left: auto;
@@ -160,30 +160,41 @@ div.messages_block {
 div.messages {
     float: left;
     height: 100%;
-    width: 68%;
-    background: white;
+    width: 67%;
+    background: #D3EDDE;
 }
 
 div.members {
     float: right;
     height: 100%;
     width: 31%;
-    background: blue;
+    background: #459A6A;
 }
 
 div.input_line {
-    background: yellow;
+    background: #459A6A;
     margin-top: 5px;
-    width: 100%;
+    width: 850px;
     height: 40px;
+    padding: 5px;
+
 }
 
 div.input_message {
     width: 70%;
-    height: 40px;
+    height: 35px;
     float: left;
+    background: transparent;
 }
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Montserrat:wght@200&display=swap');
 
+input {
+    width: 100%;
+    height: 100%;
+    background: #D3EDDE;
+    border-radius: 40px;
+    font-size: 18px;
+}
 div.send_button {
     width: 29%;
     height: 40px;
@@ -193,16 +204,20 @@ div.send_button {
 div.message_line {
     width: 100%;
     background: transparent;
-    margin-top: 5px;
+    min-height: 35px;
+    padding: 2px;
 }
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&display=swap');
 
 div.message {
-    background: #80BFFF;
-    font-size: 18px;
-    color: white;
-    border-radius: 10px;
-    padding: 5px;
-    text-align: center;
+    background: #459A6A;
+    color: #E2F6EB;
+    max-width: 400px;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 24px;
+    border-radius: 7px;
+    padding: 4px;
+    font-weight: normal;
 }
 
 .left_side {
@@ -213,8 +228,25 @@ div.message {
     float: right;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&family=Nunito:wght@300&display=swap');
+
 a.button {
     background: white;
     border-radius: 5px;
     color: black;
+    font-family: 'Comfortaa', cursive;
+}
+
+div.scroll {
+    padding: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    text-align: justify;
+}
+
+div.member {
+    color: #E2F6EB;
+    font-family: Courier;
+    font-style: italic;
 }
