@@ -189,11 +189,13 @@ div.input_message {
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Montserrat:wght@200&display=swap');
 
 input {
-    width: 100%;
-    height: 100%;
+    width: 95%;
+    height: 100%;f
     background: #D3EDDE;
     border-radius: 40px;
-    font-size: 18px;
+    font-size: 25px;
+    padding-left: 15px;
+    color: #459A6A;
 }
 div.send_button {
     width: 29%;
@@ -202,7 +204,9 @@ div.send_button {
 }
 
 div.message_line {
+    display: flex;
     width: 100%;
+    margin-top: 5px;
     background: transparent;
     min-height: 35px;
     padding: 2px;
@@ -210,8 +214,21 @@ div.message_line {
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@100&display=swap');
 
 div.message {
+    display: block;
     background: #459A6A;
     color: #E2F6EB;
+    max-width: 400px;
+    font-family: 'Fira Sans', sans-serif;
+    font-size: 24px;
+    border-radius: 7px;
+    padding: 4px;
+    font-weight: normal;
+    height: 100%;
+}
+
+div.auto_message {
+    background: #E2F6EB;
+    color: #459A6A;
     max-width: 400px;
     font-family: 'Fira Sans', sans-serif;
     font-size: 24px;
@@ -222,10 +239,12 @@ div.message {
 
 .left_side {
     float: left;
+    text-align: left;
 }
 
 .right_side {
     float: right;
+    text-align: right;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');

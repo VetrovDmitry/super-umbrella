@@ -91,14 +91,15 @@ def room(room_id):
     ready_messages = list()
     for message in messages:
         if message.member_id == 0:
-            member_name = 'bot'
+            status = 0
+        elif message.member_id == member_id:
+            status = 1
         else:
-            user = User.query.get(message.member_id)
-            member_name = user.username
+            status = 2
 
         ready_messages.append({
             'content': message.content,
-            'member_name': member_name
+            'status': status
         })
 
     memberships = current_room.memberships

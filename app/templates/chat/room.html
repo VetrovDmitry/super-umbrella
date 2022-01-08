@@ -8,9 +8,19 @@
             <div class="messages scroll">
                 {% for message in messages %}
                 <div class="message_line">
-                    <div class="message left_side">
-                        {{ message.member_name }}: {{ message.content }}
+                    {% if message['status'] == 0 %}
+                    <div class="auto_message left_side">
+                        {{ message['content'] }}
                     </div>
+                    {% elif message['status'] == 1 %}
+                    <div class="message right_side">
+                        {{ message['content'] }}
+                    </div>
+                    {% else %}
+                    <div class="message left_side">
+                        {{ message['content'] }}
+                    </div>
+                    {% endif%}
                 </div>
                 {% endfor %}
             </div>
@@ -27,7 +37,7 @@
             <form method="post" action="{{url_for('chat.room', room_id=room_id)}}" autocomplete="off">
                 {{ form.hidden_tag() }}
                 <div class="input_message">
-                    {{ form.content() }}
+                    {{ form.content(placeholder='Text something here') }}
                 </div>
                 <div class="send_button">
                     {{ form.submit() }}
