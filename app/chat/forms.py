@@ -21,3 +21,17 @@ class LeaveRoomForm(FlaskForm):
 class TextMessageForm(FlaskForm):
     content = StringField('content', validators=[DataRequired()])
     submit = SubmitField('Send!')
+
+
+class ChangeTitleForm(FlaskForm):
+    title = StringField("New Title", validators=[DataRequired()])
+    submit = SubmitField("Change!")
+
+
+class ChangeDetailsForm(FlaskForm):
+    details = StringField("New Details", validators=[DataRequired()])
+    submit = SubmitField("Change")
+
+
+class DeleteRoomForm(FlaskForm):
+    submit = SubmitField("Delete")

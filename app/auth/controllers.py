@@ -19,7 +19,7 @@ auth = Blueprint('auth', __name__)
 def signup():
     form = SignupForm()
 
-    if request.method == 'POST' and form.validate_on_submit():
+    if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
         if user:
             flash('Email address already exists')

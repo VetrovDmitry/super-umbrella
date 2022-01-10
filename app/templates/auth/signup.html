@@ -1,7 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 <section>
+
     <div class="container">
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div class="warning">
+            {{ messages[0] }}
+        </div>
+        {% endif %}
+        {% endwith %}
         <form class="form" method="POST" action="/signup">
             {{ form.hidden_tag() }}
             <div class="form__group">

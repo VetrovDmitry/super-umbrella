@@ -239,12 +239,10 @@ div.auto_message {
 
 .left_side {
     float: left;
-    text-align: left;
 }
 
 .right_side {
     float: right;
-    text-align: right;
 }
 
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');

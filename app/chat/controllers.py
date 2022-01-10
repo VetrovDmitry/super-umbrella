@@ -41,6 +41,18 @@ def membership_required(func):
     return decorated_view
 
 
+def creater_access_required(func):
+    @wraps(func)
+    def decorated_view(room_id, *args, **kwargs):
+        room = Room.query.get(room_id)
+        memeber = Member.query.get(current_user.id)
+        if room.member_id != memeber.id:
+            return 'Have no access'
+        return func(room_id, *args, **kwargs)
+
+    return decorated_view
+
+
 chat = Blueprint('chat', __name__)
 
 
@@ -145,3 +157,10 @@ def leave_room(room_id):
         return redirect(url_for("chat.index"))
     return render_template('chat/leaveroom.html', form=form, room_id=room_id)
 
+
+@chat.route("/room-settings/<room_id>")
+@login_required
+@room_required
+@creater_access_required
+def room_settings(room_id):
+    return render_template('chat/settings.html')
