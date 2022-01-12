@@ -267,3 +267,12 @@ div.member {
     font-family: Courier;
     font-style: italic;
 }
+
+div.setting_banner {
+    width: 300px;
+    height: 500px;
+    background: white;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}

@@ -2,7 +2,9 @@ from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from functools import wraps
 from .models import db, Member, Membership, Room, Message
-from .forms import CreateRoomForm, JoinRoomForm, LeaveRoomForm, TextMessageForm
+from .forms import (CreateRoomForm, JoinRoomForm, LeaveRoomForm,
+                    TextMessageForm, ChangeTitleForm, ChangeDetailsForm,
+                    DeleteRoomForm)
 from app.auth.models import User
 
 
@@ -163,4 +165,11 @@ def leave_room(room_id):
 @room_required
 @creater_access_required
 def room_settings(room_id):
-    return render_template('chat/settings.html')
+    change_title = ChangeTitleForm()
+    change_details = ChangeDetailsForm()
+    delete_room = DeleteRoomForm()
+    return render_template('chat/settings.html',
+                           room_id=room_id,
+                           change_title=change_title,
+                           change_details=change_details,
+                           delete_room=delete_room)
