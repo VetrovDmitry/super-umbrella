@@ -275,4 +275,18 @@ div.setting_banner {
     margin-left: auto;
     margin-right: auto;
     margin-top: 50px;
+    padding: 20px;
+}
+
+div.change_line {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    height: 70px;
+    background: #459A6A;
+
+}
+
+div.danger_line {
+
 }

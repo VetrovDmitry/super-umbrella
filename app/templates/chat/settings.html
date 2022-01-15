@@ -4,15 +4,33 @@
 {% block content %}
 <section>
     <div class="setting_banner">
-        <form method="post" action="{{url_for('chat.room_settings', room_id=room_id)">
+        <div class="change_line">
+            <form method="post" action="{{url_for('chat.room_settings', room_id=data.room_info.id)}}">
             {{ change_title.hidden_tag() }}
-        </form>
-        <form>
-
-        </form>
-        <form>
-
-        </form>
+                <p>
+                    {{  change_title.title(placeholder=data.room_info.title) }}
+                </p>
+                <p>
+                    {{ change_title.submit() }}
+                </p>
+            </form>
+        </div>
+        <div class="change_line">
+            <form method="post" action="{{url_for('chat.room_settings', room_id=data.room_info.id)}}">
+            {{ change_details.hidden_tag() }}
+            <p>
+                {{  change_details.details(placeholder=data.room_info.details) }}
+            </p>
+            <p>
+                {{ change_details.submit() }}
+            </p>
+            </form>
+        </div>
+        <div class="danger_line">
+            <form method="post" action="{{url_for('chat.room_settings', room_id=data.room_info.id)}}">
+            {{ delete_room.hidden_tag() }}
+            </form>
+        </div>
     </div>
 </section>
 {% endblock %}

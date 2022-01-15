@@ -160,16 +160,24 @@ def leave_room(room_id):
     return render_template('chat/leaveroom.html', form=form, room_id=room_id)
 
 
-@chat.route("/room-settings/<room_id>")
+@chat.route("/room-settings/<room_id>", methods=["POST", "GET"])
 @login_required
 @room_required
 @creater_access_required
 def room_settings(room_id):
+    data = dict()
+    current_room = Room.query.get(room_id)
     change_title = ChangeTitleForm()
     change_details = ChangeDetailsForm()
     delete_room = DeleteRoomForm()
+
+    if change_title.validate_on_submit():
+        current_room.title = change_title.title.data
+        db.session.commit()
+        return redirect(url_for("chat.room_settings", room_id=room_id))
+    data['room_info'] = current_room.get_min_info()
     return render_template('chat/settings.html',
-                           room_id=room_id,
+                           data=data,
                            change_title=change_title,
                            change_details=change_details,
                            delete_room=delete_room)

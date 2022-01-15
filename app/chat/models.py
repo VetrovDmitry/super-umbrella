@@ -45,6 +45,14 @@ class Room(db.Model):
         self.details = details
         self.date = datetime.datetime.now()
 
+    def get_min_info(self):
+        return {
+            'id': self.id,
+            'title': self.title,
+            'details': self.details,
+            'date': self.date
+        }
+
 
 class Message(db.Model):
     __tablename__ = "message"
