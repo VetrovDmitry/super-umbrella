@@ -8,7 +8,7 @@
             <form method="post" action="{{url_for('chat.room_settings', room_id=data.room_info.id)}}">
             {{ change_title.hidden_tag() }}
                 <p>
-                    {{  change_title.title(placeholder=data.room_info.title) }}
+                    {{  change_title.title(placeholder=data.room_info.title) }} {{  change_title.title.label() }}
                 </p>
                 <p>
                     {{ change_title.submit() }}
@@ -19,7 +19,7 @@
             <form method="post" action="{{url_for('chat.room_settings', room_id=data.room_info.id)}}">
             {{ change_details.hidden_tag() }}
             <p>
-                {{  change_details.details(placeholder=data.room_info.details) }}
+                {{  change_details.details(placeholder=data.room_info.details) }} {{  change_details.details.label() }}
             </p>
             <p>
                 {{ change_details.submit() }}
@@ -27,9 +27,9 @@
             </form>
         </div>
         <div class="danger_line">
-            <form method="post" action="{{url_for('chat.room_settings', room_id=data.room_info.id)}}">
-            {{ delete_room.hidden_tag() }}
-            </form>
+            <a class="danger_button" href="{{ url_for('chat.delete_room', room_id=data.room_info.id) }}">
+                DELETE THIS ROOM
+            </a>
         </div>
     </div>
 </section>

@@ -175,9 +175,21 @@ def room_settings(room_id):
         current_room.title = change_title.title.data
         db.session.commit()
         return redirect(url_for("chat.room_settings", room_id=room_id))
+    if change_details.validate_on_submit():
+        current_room.details = change_details.details.data
+        db.session.commit()
+        return redirect(url_for("chat.room_settings", room_id=room_id))
     data['room_info'] = current_room.get_min_info()
     return render_template('chat/settings.html',
                            data=data,
                            change_title=change_title,
                            change_details=change_details,
                            delete_room=delete_room)
+
+
+@chat.route("/delete-room/<room_id>", methods=["POST", "GET"])
+@login_required
+@room_required
+@creater_access_required
+def delete_room(room_id):
+    return render_template("chat/deleteroom.html")
