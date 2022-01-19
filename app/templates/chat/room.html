@@ -26,7 +26,7 @@
             </div>
             <div class="members scroll">
                 <a class="button" href="{{ url_for('chat.leave_room', room_id=room_id) }}">
-                    Leave room
+                    <img class="small_icon" src="../static/images/leaveicon.png" alt="leave-icon"> Leave room
                 </a>
                 {% for member in members %}
                 <div class="member">{{member}}</div>
@@ -36,11 +36,13 @@
         <div class="input_line">
             <form method="post" action="{{url_for('chat.room', room_id=room_id)}}" autocomplete="off">
                 {{ form.hidden_tag() }}
+                <img class="small_icon" src="../static/images/send_message.png" alt="send_message">
                 <div class="input_message">
                     {{ form.content(placeholder='Text something here') }}
                 </div>
                 <div class="send_button">
                     {{ form.submit() }}
+
                 </div>
             </form>
         </div>

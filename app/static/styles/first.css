@@ -181,7 +181,7 @@ div.input_line {
 }
 
 div.input_message {
-    width: 70%;
+    width: 75%;
     height: 35px;
     float: left;
     background: transparent;
@@ -278,6 +278,7 @@ div.setting_banner {
     padding: 20px;
 }
 
+
 div.change_line {
     margin-top: 20px;
     margin-bottom: 20px;
@@ -299,4 +300,10 @@ a.danger_button {
     width: 80%;
     height: 100%;
     background: #FF3900;
+}
+
+img.small_icon {
+    float: left;
+    width: 40px;
+    height: 40px;
 }
