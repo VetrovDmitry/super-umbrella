@@ -169,7 +169,6 @@ def room_settings(room_id):
     current_room = Room.query.get(room_id)
     change_title = ChangeTitleForm()
     change_details = ChangeDetailsForm()
-    delete_room = DeleteRoomForm()
 
     if change_title.validate_on_submit():
         current_room.title = change_title.title.data
@@ -183,8 +182,7 @@ def room_settings(room_id):
     return render_template('chat/settings.html',
                            data=data,
                            change_title=change_title,
-                           change_details=change_details,
-                           delete_room=delete_room)
+                           change_details=change_details)
 
 
 @chat.route("/delete-room/<room_id>", methods=["POST", "GET"])
@@ -192,4 +190,6 @@ def room_settings(room_id):
 @room_required
 @creater_access_required
 def delete_room(room_id):
-    return render_template("chat/deleteroom.html")
+    delete_form = DeleteRoomForm()
+
+    return render_template("chat/deleteroom.html", delete_form=delete_form, room_id=room_id)

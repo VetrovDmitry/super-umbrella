@@ -4,7 +4,13 @@
 {% block content %}
 <section>
     <div class="danger_line">
-
+        DO YOU REALLY WANT TO DELETE THIS ROOM?
+        <form method="post" action="{{ url_for('chat.delete_room' , room_id=room_id) }}">
+            {{ delete_form.hidden_tag() }}
+            <p>
+                {{  delete_form.submit()  }}
+            </p>
+        </form>
     </div>
 </section>
 {% endblock %}
