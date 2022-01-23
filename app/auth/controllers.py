@@ -82,7 +82,7 @@ def logout():
 @login_required
 def profile():
     avatar = Avatar.query.filter_by(user_id=current_user.id).first()
-    avatar_path = 'uploads/' + avatar.path
+    avatar_path = 'uploads/' + 's'
     user = User.query.filter_by(id=current_user.get_id()).first()
     user_data = {
         'username': user.username,

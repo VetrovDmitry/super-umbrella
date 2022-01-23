@@ -8,7 +8,15 @@
 </head>
 <body>
     <header>
-
+        <nav>
+            <ul>
+                <li><a class="nav_button" href="">Home</a></li>
+                <li><a class="nav_button" href="{{ url_for('auth.profile') }}">Profile</a></li>
+                <li><a class="nav_button" href="{{ url_for('chat.index') }}">Chat</a></li>
+                <li><a class="nav_button" href="">Market</a></li>
+                <li><a class="nav_button" href="{{ url_for('auth.login') }}">Login</a></li>
+            </ul>
+        </nav>
     </header>
     {% block content %}
 
