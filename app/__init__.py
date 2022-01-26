@@ -33,4 +33,8 @@ def create_app():
 
     app.register_blueprint(chat_blueprint.chat)
 
+    import app.main.controllers as main_blueprint
+
+    app.register_blueprint(main_blueprint.main)
+
     return app

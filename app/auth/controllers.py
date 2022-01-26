@@ -115,11 +115,6 @@ def upload_avatar():
     return render_template('auth/uploadavatar.html', form=form)
 
 
-@auth.route('/index')
-def index():
-    return render_template('auth/index.html')
-
-
 @auth.route('/settings')
 def settings():
     return render_template('auth/settings.html')

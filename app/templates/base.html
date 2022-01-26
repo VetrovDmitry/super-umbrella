@@ -10,11 +10,37 @@
     <header>
         <nav>
             <ul>
-                <li><a class="nav_button" href="">Home</a></li>
-                <li><a class="nav_button" href="{{ url_for('auth.profile') }}">Profile</a></li>
-                <li><a class="nav_button" href="{{ url_for('chat.index') }}">Chat</a></li>
-                <li><a class="nav_button" href="">Market</a></li>
-                <li><a class="nav_button" href="{{ url_for('auth.login') }}">Login</a></li>
+                <li><a class="nav_button" href="">
+                    <img class="very_small_icon" src="../static/images/home_icon.png" alt="home">
+                    Home
+                </a></li>
+                {% if current_user.is_authenticated %}
+                <li><a class="nav_button" href="{{ url_for('auth.profile') }}">
+                    <img class="very_small_icon" src="../static/images/profile_icon.png" alt="profile">
+                    Profile
+                </a></li>
+                <li><a class="nav_button" href="{{ url_for('chat.index') }}">
+                    <img class="very_small_icon" src="../static/images/chat_icon.png" alt="chat">
+                    Chat
+                </a></li>
+                <li><a class="nav_button" href="">
+                    <img class="very_small_icon" src="../static/images/market_icon.png" alt="market">
+                    Market
+                </a></li>
+                <li><a class="nav_button" href="{{ url_for('auth.logout') }}">
+                    <img class="very_small_icon" src="../static/images/logout_icon.png" alt="logout">
+                    Logout
+                </a></li>
+                {% elif not current_user.is_authenticated %}
+                <li><a class="nav_button" href="{{ url_for('auth.login') }}">
+                    <img class="very_small_icon" src="../static/images/login_icon.png" alt="login">
+                    Login
+                </a></li>
+                <li><a class="nav_button" href="{{ url_for('auth.signup') }}">
+                    <img class="very_small_icon" src="../static/images/signup_icon.png" alt="signup">
+                    Signup
+                </a></li>
+                {% endif %}
             </ul>
         </nav>
     </header>

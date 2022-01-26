@@ -327,8 +327,8 @@ nav ul {
 nav ul li {
     display: inline-block;
     margin-top: 5px;
-    margin-left: 110px;
-    margin-right: 110px;
+    margin-left: 100px;
+    margin-right: 100px;
 
 }
 
@@ -348,4 +348,10 @@ a.nav_button:hover {
 a.nav_button:active {
     background: white;
     color: #04BC0F;
+}
+
+img.very_small_icon {
+    float: left;
+    height: 20px;
+    width: 20px;
 }
