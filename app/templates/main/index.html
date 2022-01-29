@@ -3,6 +3,35 @@
 
 {% block content %}
 <section>
-
+    <div class="hello_holder text_shadowed">
+        Hello
+    </div>
+    <div class="central_banner">
+        <div class="left_side">
+            Make your OWN chat
+            room now for FREE!
+            <a class="big_button" href="{{ url_for('chat.create_room') }}">
+                Try it, It's FREE!
+            </a>
+        </div>
+        <div class="right_side">
+            Signup or login into your account!
+            <a class="big_button" href="{{  url_for('auth.signup')  }}">
+                SIGN UP
+            </a>
+            <a class="big_button" href="{{  url_for('auth.login')  }}">
+                LOG IN
+            </a>
+        </div>
+        <div class="bottom_part">
+            Sell or Buy houses!
+            <a class="big_button" href="">
+                Sell!
+            </a>
+            <a class="big_button" href="">
+                Buy!
+            </a>
+        </div>
+    </div>
 </section>
 {% endblock %}
