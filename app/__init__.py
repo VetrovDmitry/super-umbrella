@@ -37,4 +37,8 @@ def create_app():
 
     app.register_blueprint(main_blueprint.main)
 
+    import app.market.controllers as market_blueprint
+
+    app.register_blueprint(market_blueprint.market)
+
     return app

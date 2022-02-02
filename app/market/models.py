@@ -15,6 +15,7 @@ class House(db.Model):
     cost = Column(Float)
     user_id = Column(Integer, ForeignKey("user.id"))
     date = Column(DateTime)
+    photoes = relationship('Photo')
 
     def __init__(self, city, street, house_number, cost, summary):
         self.city = city
