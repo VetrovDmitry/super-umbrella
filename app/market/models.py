@@ -15,14 +15,13 @@ class House(db.Model):
     cost = Column(Float)
     user_id = Column(Integer, ForeignKey("user.id"))
     date = Column(DateTime)
-    photoes = relationship('Photo')
+    photos = relationship('Photo')
 
-    def __init__(self, city, street, house_number, cost, summary):
+    def __init__(self, city, street, house_number, user_id):
         self.city = city
         self.street = street
         self.house_number = house_number
-        self.cost = cost
-        self.summary = summary
+        self.user_id = user_id
         self.date = datetime.datetime.now()
 
 

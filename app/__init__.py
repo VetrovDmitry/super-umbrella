@@ -17,6 +17,7 @@ def create_app():
 
     from .auth.models import User
     from .chat.models import Member, Membership, Room, Message
+    from .market.models import House, Photo
 
     @login_manager.user_loader
     def load_user(user_id):

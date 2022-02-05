@@ -11,7 +11,7 @@ from app.auth.models import User
 def room_required(func):
     @wraps(func)
     def decorated_view(room_id, *args, **kwargs):
-        room = Room.query.filter_by(id=room_id)
+        room = Room.query.filter_by(id=room_id).first()
         if not room:
             return 'room not found'
         return func(room_id, *args, **kwargs)

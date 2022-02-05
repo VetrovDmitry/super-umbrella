@@ -3,6 +3,16 @@
 
 {% block content %}
 <section>
-
+    <div>
+        <div>
+            <form method="post" action="{{ url_for('market.add_house') }}">
+                {{ form.hidden_tag() }}
+                <p>{{ form.city(placeholder="City") }}</p>
+                <p>{{ form.street(placeholder="Street") }}</p>
+                <p>{{ form.house_number(placeholder="House Number") }}</p>
+                <p>{{ form.submit() }}</p>
+            </form>
+        </div>
+    </div>
 </section>
 {% endblock %}
