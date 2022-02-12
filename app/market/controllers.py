@@ -67,8 +67,9 @@ def add_house():
 @house_access_required
 def detail_house(house_id):
     # Все необходимые переменные для работы функции
-
+    data = dict()
     current_house = House.query.get(house_id)
+
     forms = {
         'upload_image': UploadPhotoForm(),
         'change_cost': ChangeCostForm(),
@@ -78,8 +79,18 @@ def detail_house(house_id):
 
     # Работа с формами
     if forms['change_cost'].validate_on_submit():
-        pass
-    return render_template('market/detailhouse.html', forms=forms)
+        current_house.cost = forms['change_cost'].cost.data
+        db.session.commit()
+        return redirect(url_for('market.detail_house', house_id=house_id))
+
+    if forms['change_summary'].validate_on_submit():
+        current_house.summary = forms['change_summary'].summary.data
+        db.session.commit()
+        return redirect(url_for('market.detail_house', house_id=house_id))
+
+
+    data['house_info'] = current_house.get_min_info()
+    return render_template('market/detailhouse.html', data=data, forms=forms)
 
 
 @market.route("/house-details")

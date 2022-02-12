@@ -3,6 +3,18 @@
 
 {% block content %}
 <section>
+    <div>
+        <form method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+            {{ forms.change_cost.hidden_tag() }}
+            <p>{{ forms.change_cost.cost(placeholder="$"+data.house_info.cost) }}</p>
+            <p>{{ forms.change_cost.submit() }}</p>
+        </form>
+        <form method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+            {{ forms.change_summary.hidden_tag() }}
+            <p>{{ forms.change_summary.summary(placeholder=data.house_info.summary) }}</p>
+            <p>{{ forms.change_summary.submit() }}</p>
+        </form>
 
+    </div>
 </section>
 {% endblock %}

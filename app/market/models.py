@@ -24,6 +24,26 @@ class House(db.Model):
         self.user_id = user_id
         self.date = datetime.datetime.now()
 
+    def get_cost(self):
+        if self.cost is None:
+            return 'Cost'
+        return str(self.cost)
+
+    def get_summary(self):
+        if self.summary is None:
+            return 'Summary'
+        return self.summary
+
+    def get_min_info(self):
+        return {
+            'id': self.id,
+            'city': self.city,
+            'street': self.street,
+            'house_number': self.house_number,
+            'summary': self.get_summary(),
+            'cost': self.get_cost()
+        }
+
 
 class Photo(db.Model):
     __tablename__ = 'photo'
