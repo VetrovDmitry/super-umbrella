@@ -44,6 +44,17 @@ class House(db.Model):
             'cost': self.get_cost()
         }
 
+    def get_max_info(self):
+        return {
+            'id': self.id,
+            'cost': self.cost,
+            "summary": self.summary,
+            "city": self.city,
+            "street": self.street,
+            "house_number": self.house_number,
+            'photos': self.photos
+        }
+
 
 class Photo(db.Model):
     __tablename__ = 'photo'

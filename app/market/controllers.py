@@ -88,11 +88,22 @@ def detail_house(house_id):
         db.session.commit()
         return redirect(url_for('market.detail_house', house_id=house_id))
 
+    if forms["change_address"].validate_on_submit():
+        current_house.city = forms['change_address'].city.data
+        current_house.street = forms['change_address'].street.data
+        current_house.house_number = forms['change_address'].house_number.data
+        db.session.commit()
+        return redirect(url_for("market.detail_house", house_id=house_id))
 
     data['house_info'] = current_house.get_min_info()
     return render_template('market/detailhouse.html', data=data, forms=forms)
 
 
-@market.route("/house-details")
-def house_details():
-    return render_template("market/housedetails.html")
+@market.route("/house-details/<house_id>", methods=['POST', 'GET'])
+@login_required
+@house_required
+def house_details(house_id):
+    data = dict()
+    current_house = House.query.get(house_id)
+    data['house_info'] = current_house.get_max_info()
+    return render_template("market/housedetails.html", data=data)

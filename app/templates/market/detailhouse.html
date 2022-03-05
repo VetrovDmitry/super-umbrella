@@ -3,18 +3,27 @@
 
 {% block content %}
 <section>
-    <div>
-        <form method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+    <div class="parameter_holder">
+        <form class="cost" method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+            <h1 class="parameter_header">Cost</h1>
             {{ forms.change_cost.hidden_tag() }}
             <p>{{ forms.change_cost.cost(placeholder="$"+data.house_info.cost) }}</p>
             <p>{{ forms.change_cost.submit() }}</p>
         </form>
-        <form method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+        <form class="summary" method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+            <h1 class="parameter_header">Summary</h1>
             {{ forms.change_summary.hidden_tag() }}
             <p>{{ forms.change_summary.summary(placeholder=data.house_info.summary) }}</p>
             <p>{{ forms.change_summary.submit() }}</p>
         </form>
-
+        <form class="address" method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
+            <h1 class="parameter_header">Address</h1>
+            {{ forms.change_address.hidden_tag() }}
+            <p>{{ forms.change_address.city(placeholder=data.house_info.city) }}</p>
+            <p>{{ forms.change_address.street(placeholder=data.house_info.street) }}</p>
+            <p>{{ forms.change_address.house_number(placeholder=data.house_info.house_number) }}</p>
+            <p>{{ forms.change_cost.submit() }}</p>
+        </form>
     </div>
 </section>
 {% endblock %}

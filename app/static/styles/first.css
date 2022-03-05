@@ -9,10 +9,14 @@ div.container {
     width: 350px;
     background: #933C2E
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 h1 {
     text-align: center;
     color: white;
+}
+
+h1.parameter_header {
+   font-family: "Comfortaa";
 }
 .blue_box {
     background: #44A7FE;
@@ -29,6 +33,10 @@ p.boxed {
     height: 50px;
 }
 
+p {
+    margin-left: auto;
+    margin-right: auto;
+}
 .button_vertical {
     background: #0FB3CD;
     color: lightgrey;
@@ -193,12 +201,13 @@ div.input_message {
 
 input {
     width: 95%;
-    height: 100%;f
+    height: 100%;
     background: #D3EDDE;
     border-radius: 40px;
     font-size: 25px;
     padding-left: 15px;
     color: #459A6A;
+
 }
 div.send_button {
     width: 29%;
@@ -248,7 +257,7 @@ div.auto_message {
     float: right;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
+
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&family=Nunito:wght@300&display=swap');
 
 a.button {
@@ -432,5 +441,77 @@ div.bottom_part {
     font-size: 80px;
     color: white;
     text-align: center;
+}
+
+
+div.parameter_holder {
+    background: green;
+    width: 375px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 130px;
+    padding: 5px;
+}
+
+form.cost {
+    background: transparent;
+    height: 130px;
+}
+
+form.summary {
+    background: transparent;
+    height: 130px;
+}
+
+form.address {
+    background: transparent;
+
+}
+
+div.housedetails_info {
+    background: green;
+    width: 525px;
+    height: 550px;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 85px;
+    border: 4px solid #00A6FF;
+}
+
+div.cost_house {
+    background: #00A6FF;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+
+}
+
+p.data_holder_cost {
+    margin-right: auto;
+    heigth 75px;
+    margin-left: auto;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: center;
+
+}
+
+div.summary_house {
+    background: #00A6FF;
+    width: 95%;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 30px;
+}
+
+p.data_holder_summary {
+    margin-right: auto;
+    heigth 75px;
+    margin-left: auto;
+    margin-bottom: 30px;
+    font-size: 20px;
+    text-align: center;
+
 }
 
