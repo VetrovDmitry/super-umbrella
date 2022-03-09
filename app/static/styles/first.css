@@ -18,6 +18,11 @@ h1 {
 h1.parameter_header {
    font-family: "Comfortaa";
 }
+
+div.info_header{
+    text-align: center;
+}
+
 .blue_box {
     background: #44A7FE;
 }
@@ -267,7 +272,7 @@ a.button {
     font-family: 'Comfortaa', cursive;
 }
 
-div.scroll {
+.scroll {
     padding: 4px;
     overflow-x: hidden;
     overflow-y: auto;
@@ -469,49 +474,94 @@ form.address {
 }
 
 div.housedetails_info {
-    background: green;
-    width: 525px;
-    height: 550px;
+    position: relative;
+    background: transparent;
+    width: 860px;
+    height: 600px;
     margin-right: auto;
     margin-left: auto;
     margin-top: 85px;
-    border: 4px solid #00A6FF;
+    padding: 5px;
+    border: 4px solid transparent;
 }
 
-div.cost_house {
+div.content_holder {
+    padding: 2px;
+    float: left;
+    background: transparent;
+    width: 500px;
+    height: 596px;
+
+}
+
+div.content_box {
+    width: 496x;
+    height: 592px;
+    background: black;
+    padding: 5px;
+}
+
+div.summary_holder {
+    width: 470px;
+    height: 180px;
+    text-align: center;
+    background: white;
+}
+
+div.address_holder {
+
+}
+
+div.cost_holder {
+
+}
+
+div.photo_holder {
+    padding: 2px;
+    float: right;
+    background: transparent;
+    width: 350px;
+    height: 596px;
+}
+
+div.photo_box {
+    width: 326px;
+    height: 192px;
+    background: black;
+    margin: 4px;
+}
+
+div.summary_box {
+    background: red;
+    width: 490px;
+    height: 200px;
+    margin-bottom: 2px;
+}
+
+div.address_box {
+    background: red;
+    width: 490px;
+    height: 225px;
+    margin-bottom: 2px;
+}
+
+div.cost_box {
+    background: red;
+    width: 490px;
+    height: 165px;
+}
+
+div.photo_house {
     background: #00A6FF;
-    width: 95%;
+    width: 100px;
+    height: 100px;
     margin-right: auto;
     margin-left: auto;
     margin-top: 30px;
-
 }
 
-p.data_holder_cost {
+p.data_holder_photo {
     margin-right: auto;
-    heigth 75px;
+    heigth: 75px;
+    width: 75px;
     margin-left: auto;
-    margin-bottom: 30px;
-    font-size: 20px;
-    text-align: center;
-
-}
-
-div.summary_house {
-    background: #00A6FF;
-    width: 95%;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 30px;
-}
-
-p.data_holder_summary {
-    margin-right: auto;
-    heigth 75px;
-    margin-left: auto;
-    margin-bottom: 30px;
-    font-size: 20px;
-    text-align: center;
-
-}
-
