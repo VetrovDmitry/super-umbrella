@@ -7,7 +7,7 @@
         <form class="cost" method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">
             <h1 class="parameter_header">Cost</h1>
             {{ forms.change_cost.hidden_tag() }}
-            <p>{{ forms.change_cost.cost(placeholder="$"+data.house_info.cost) }}</p>
+            <p>{{ forms.change_cost.cost(placeholder="€"+data.house_info.cost) }}</p>
             <p>{{ forms.change_cost.submit() }}</p>
         </form>
         <form class="summary" method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}">

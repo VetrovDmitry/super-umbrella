@@ -9,20 +9,60 @@
                 <div class="summary_box">
                     <div class="info_header">SUMMARY</div>
                     <div class="summary_holder">
-
+                        <div class="text_holder">
+                            {{ data.house_info.summary }}
+                        </div>
                     </div>
                 </div>
                 <div class="address_box">
                     <div class="info_header">ADDRESS</div>
                     <div class="address_holder">
-
+                        <div class="content_line">
+                            <div class="label_holder">
+                                <p class="label">
+                                    City:
+                                </p>
+                            </div>
+                            <div class="value_holder">
+                                <p class="value">
+                                    {{ data.house_info.city }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content_line">
+                            <div class="label_holder">
+                                <p class="label">
+                                    Street:
+                                </p>
+                            </div>
+                            <div class="value_holder">
+                                <p class="value">
+                                    {{ data.house_info.street }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="content_line">
+                            <div class="label_holder">
+                                <p class="label">
+                                    House number:
+                                </p>
+                            </div>
+                            <div class="value_holder">
+                                <p class="value">
+                                    {{ data.house_info.house_number }}
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="cost_box">
                     <div class="info_header">COST</div>
                     <div class="cost_holder">
-
+                        <div class="content_line">
+                            {{ data.house_info.cost }}
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
