@@ -4,6 +4,11 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 from .models import db, House, Photo
 from .forms import AddHouseForm, UploadPhotoForm, ChangeCostForm, ChangeAddressForm, ChangeSummaryForm
+import datetime
+import os
+
+
+SAVE_DIR = 'app/static/uploads'
 
 
 def house_required(func):
@@ -92,6 +97,17 @@ def detail_house(house_id):
         current_house.city = forms['change_address'].city.data
         current_house.street = forms['change_address'].street.data
         current_house.house_number = forms['change_address'].house_number.data
+        db.session.commit()
+        return redirect(url_for("market.detail_house", house_id=house_id))
+
+    if forms['upload_image'].validate_on_submit():
+        image = forms['upload_image'].image.data
+        filename = str(float(datetime.datetime.now())*1000) + '.png'
+        filename = secure_filename(filename)
+        full_path = os.path.join(SAVE_DIR, filename)
+        image.save(full_path)
+        new_image = Photo(filename, house_id)
+        db.session.add(new_image)
         db.session.commit()
         return redirect(url_for("market.detail_house", house_id=house_id))
 

@@ -1,3 +1,6 @@
+@import url('https://fonts.googleapis.com/css2?family=Hubballi&display=swap');
+
+
 * {
     text-decoration: none;
 }
@@ -16,12 +19,13 @@ h1 {
 }
 
 h1.parameter_header {
-   font-family: "Comfortaa";
+   font-family: 'Hubballi', cursive;
 }
 
 div.info_header{
     text-align: center;
     color: white;
+    font-family: 'Hubballi', cursive;
 }
 
 .blue_box {
@@ -117,6 +121,7 @@ div.form__group {
 body {
     background: #FFF500;
 }
+
 hr {
     width: 80%;
     min-width: 860px;
@@ -528,14 +533,19 @@ div.summary_box {
     margin-bottom: 2px;
 }
 
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 div.summary_holder {
     display: flex;
     width: 480px;
     height: 180px;
     text-align: center;
-    background: white;
+    background: #00C9A7;
     margin: auto;
     border-radius: 3px;
+    font-family: 'Fredoka', sans-serif;
+    font-style: italic;
+    font-weight: 600;
 }
 
 div.address_box {
@@ -547,13 +557,15 @@ div.address_box {
 }
 
 div.address_holder{
-    background: white;
+    background: #00C9A7;
     margin: auto;
     display: block;
     width: 480px;
     height: 160px;
     text-align: center;
     border-radius: 3px;
+    font-family: "Fredoka", sans-serif;
+    font-weight: 600;
 }
 
 div.cost_box {
@@ -563,15 +575,18 @@ div.cost_box {
     height: 165px;
 }
 
+
+
 div.cost_holder {
     display: flex;
-    background: white;
+    background: #00C9A7;
     text-align: center;
     border-radius: 3px;
     margin: auto;
     width: 480px;
     height: 145px;
-
+    font-family: 'Fredoka One', sans-serif;
+    font-weight: 600;
 }
 
 div.photo_house {
@@ -594,7 +609,7 @@ div.content_line {
     display: block;
     width: 470px;
     height: 50px;
-    background: yellow;
+    background: transparent;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 5px;
@@ -622,19 +637,36 @@ div.value_holder {
     font-size: 18px;
 }
 
-p.label {
-    margin-left: 10px;
+div.label {
+    height: 100%;
+    width: 100%;
     background: transparent;
+    margin-left: 10px;
+    font-family: "Fredoka", cursive
+    font-weight: 400;
+    font-size: 15px;
 }
 
-p.value {
+div.value {
+    height: 100%;
+    width: 100%;
     background: transparent;
+    font-family: "Fredoka", cursive
+    font-weight: 600;
 }
+
 div.text_holder {
     word-wrap: break-word;
     text-align: center;
     color: black;
     text-size: 16px;
+    padding: 5px;
 
 }
 
+Fredoka
+#00C9A7
+15
+
+#008F7A
+#4D8076

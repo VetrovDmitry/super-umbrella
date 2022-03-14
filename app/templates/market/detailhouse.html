@@ -24,6 +24,11 @@
             <p>{{ forms.change_address.house_number(placeholder=data.house_info.house_number) }}</p>
             <p>{{ forms.change_cost.submit() }}</p>
         </form>
+        <form class="" method="post" action="{{ url_for('market.detail_house', house_id=data.house_info.id) }}" enctype="multipart/form-data">
+            {{ forms.upload_image.hidden_tag() }}
+            <p>{{ forms.upload_image.image() }}</p>
+            <p>{{ forms.upload_image.submit() }}</p>
+        </form>
     </div>
 </section>
 {% endblock %}
