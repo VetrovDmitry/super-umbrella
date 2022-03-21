@@ -460,7 +460,7 @@ div.parameter_holder {
     width: 375px;
     margin-right: auto;
     margin-left: auto;
-    margin-top: 130px;
+    margin-top: 50px;
     padding: 5px;
 }
 
@@ -651,7 +651,7 @@ div.value {
     height: 100%;
     width: 100%;
     background: transparent;
-    font-family: "Fredoka", cursive
+    font-family: "Fredoka", cursive;
     font-weight: 600;
 }
 
@@ -663,10 +663,25 @@ div.text_holder {
     padding: 5px;
 
 }
+img.medium_img {
+    width: 326px;
+    height: 192px;
+    background: pink;
+}
 
-Fredoka
-#00C9A7
-15
+div.market_position {
+    display: block;
+    width: 280px;
+    height: 224px;
+    background: green;
+    float: left;
+    margin: 3px;
+}
 
-#008F7A
-#4D8076
+div.market_wrapper {
+    display: block;
+    height: 750px;
+    width: 858px;
+    background: white;
+    margin: auto;
+}

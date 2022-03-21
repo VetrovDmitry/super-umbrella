@@ -67,21 +67,11 @@
             </div>
         </div>
         <div class="photo_holder scroll">
+            {% for photo in data.house_info.photos %}
             <div class="photo_box">
-
+                <img class="medium_img" src="{{ url_for('static', filename='uploads/'+photo) }}">
             </div>
-            <div class="photo_box">
-
-            </div>
-            <div class="photo_box">
-
-            </div>
-            <div class="photo_box">
-
-            </div>
-            <div class="photo_box">
-
-            </div>
+            {% endfor %}
         </div>
     </div>
 </section>

@@ -4,7 +4,7 @@ from werkzeug.utils import secure_filename
 from functools import wraps
 from .models import db, House, Photo
 from .forms import AddHouseForm, UploadPhotoForm, ChangeCostForm, ChangeAddressForm, ChangeSummaryForm
-import datetime
+import time
 import os
 
 
@@ -38,7 +38,14 @@ market = Blueprint("market", __name__)
 
 @market.route("/market")
 def marketplace():
-    return render_template('market/index.html')
+    data = dict()
+    houses = list()
+    houses_query = House.query.order_by(House.date)
+    for house in houses_query.all():
+        houses.append(house.get_min_info())
+
+    data["houses"] = houses
+    return render_template('market/index.html', data=data)
 
 
 @market.route("/add-house", methods=['POST', 'GET'])
@@ -47,13 +54,13 @@ def add_house():
     form = AddHouseForm()
 
     if form.validate_on_submit():
-        # house = House.query.filter_by(
-        #     city=form.city.data,
-        #     street=form.street.data,
-        #     house_number=form.house_number.data).first()
-        # if house:
-        #     flash("House with this address is already on market")
-        #     return redirect(url_for("market.add_house"))
+        house = House.query.filter_by(
+            city=form.city.data,
+            street=form.street.data,
+            house_number=form.house_number.data).first()
+        if house:
+            flash("House with this address is already on market")
+            return redirect(url_for("market.add_house"))
 
         new_house = House(city=form.city.data,
                           street=form.street.data,
@@ -101,8 +108,9 @@ def detail_house(house_id):
         return redirect(url_for("market.detail_house", house_id=house_id))
 
     if forms['upload_image'].validate_on_submit():
+        filename_template = '{0}.png'
         image = forms['upload_image'].image.data
-        filename = str(float(datetime.datetime.now())*1000) + '.png'
+        filename = filename_template.format(str(int(time.time()*10000)))
         filename = secure_filename(filename)
         full_path = os.path.join(SAVE_DIR, filename)
         image.save(full_path)
@@ -122,4 +130,5 @@ def house_details(house_id):
     data = dict()
     current_house = House.query.get(house_id)
     data['house_info'] = current_house.get_max_info()
+
     return render_template("market/housedetails.html", data=data)

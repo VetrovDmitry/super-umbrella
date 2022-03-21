@@ -17,6 +17,7 @@ class House(db.Model):
     date = Column(DateTime)
     photos = relationship('Photo')
 
+
     def __init__(self, city, street, house_number, user_id):
         self.city = city
         self.street = street
@@ -41,7 +42,8 @@ class House(db.Model):
             'street': self.street,
             'house_number': self.house_number,
             'summary': self.get_summary(),
-            'cost': self.get_cost()
+            'cost': self.get_cost(),
+            'preview': self.get_photos()[-1]
         }
 
     def get_max_info(self):
@@ -52,8 +54,15 @@ class House(db.Model):
             "city": self.city,
             "street": self.street,
             "house_number": self.house_number,
-            'photos': self.photos
+            'photos': self.get_photos()
         }
+
+    def get_photos(self):
+        photos = list()
+        for photo in self.photos:
+            photo_path = photo.path
+            photos.append(photo_path)
+        return photos
 
 
 class Photo(db.Model):
@@ -66,3 +75,4 @@ class Photo(db.Model):
     def __init__(self, path, house_id):
         self.path = path
         self.house_id = house_id
+        self.date = datetime.datetime.now()
