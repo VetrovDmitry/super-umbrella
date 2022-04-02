@@ -92,23 +92,58 @@ div.form__group {
     width: 80%;
 }
 
-.profile_container {
+div.profile_container {
     display: block;
-    margin-left: auto;
-    margin-right: auto;
-    background: #3DBB52;
-    height: 800px;
-    width: 860px;
+    background: transparent;
+    width: 700px;
+    height: 650px;
+    margin: auto;
+    margin-top: 60px;
 }
 
-.info_box {
-    float: left;
-    width: 400px;
-    height: 260px;
-    margin-left: 20px;
-    margin-top: 20px;
-    background: #FF9052;
+div.profile_info {
+    background: transparent;
+    width: 100%;
+    height: 390px;
+    margin-bottom: 20px;
+}
 
+div.user_avatar_holder {
+    width: 320px;
+    height: 320px;
+    background: #2EA907;
+    float: left;
+}
+
+div.user_info_holder {
+    width: 360px;
+    height: 320px;
+    background: transparent;
+    float: right;
+}
+
+div.info_line {
+    width: 90%;
+    height: 75px;
+    background: #2EA907;
+    color: white;
+    font-family: "MV Boli";
+    font-size: 20px;
+}
+
+div.settings_holder {
+    width: 100%;
+    height: 50px;
+    background: yellow;
+    float: left;
+    margin-top: 10px;
+}
+
+
+div.profile_storage {
+    background: lightgrey;
+    width: 100%;
+    height: 240px;
 }
 
 .info_cascade {
@@ -119,7 +154,7 @@ div.form__group {
     margin-right: auto;
 }
 body {
-    background: #FFF500;
+    background: white;
 }
 
 hr {
@@ -669,10 +704,10 @@ img.medium_img {
     background: pink;
 }
 
-div.market_position {
+div.market_table {
     display: block;
     width: 280px;
-    height: 224px;
+    height: 225px;
     background: green;
     float: left;
     margin: 3px;
@@ -682,6 +717,47 @@ div.market_wrapper {
     display: block;
     height: 750px;
     width: 858px;
-    background: white;
+    background: transparent;
     margin: auto;
+}
+
+div.table_photo_holder {
+    width: 280px;
+    height: 175px;
+    background: pink;
+}
+
+div.table_info_holder {
+    width: 280px;
+    height: 50px;
+    background: #2EA907;
+}
+
+img.table_photo {
+    width: 280px;
+    height: 175px;
+    background: lightgrey;
+    object-fit: cover;
+}
+
+div.table_cost_holder{
+    background: transparent;
+    width: 180px;
+    height: 50px;
+    float: left;
+    font-family: "Fredoka", cursive;
+    font-size: 20px;
+}
+
+div.table_likes_holder{
+    background: transparent;
+    width: 100px;
+    height: 50px;
+    float: right;
+    font-family: "Fredoka", cursive;
+
+}
+
+a.link {
+    color: black;
 }

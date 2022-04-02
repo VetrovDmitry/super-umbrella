@@ -1,33 +1,29 @@
 {% extends "base.html" %}
 {% block content %}
 <section>
-    <div class="info_cascade">
-        <div class="info_box">
-            photo
-        </div>
-        <div class="info_box">
-            <div class="info_line">
-                {{ data['email'] }}
+    <div class="profile_container">
+        <div class="profile_info">
+            <div class="user_avatar_holder">
+
             </div>
-            <div class="info_line">
-                {{ data['name'] }}
-            </div>
-            <div class="info_line">
-                {{ data['username'] }}
-            </div>
-            <div class="info_line">
-                {{ data['date'] }}
-            </div>
-            <a class="button_s" href="/settings">
+            <div class="user_info_holder">
                 <div class="info_line">
-                    Settings
+                    {{ data.username }}
                 </div>
-            </a>
+                <div class="info_line">
+                    {{  data.email  }}
+                </div>
+                <div class="info_line">
+                    {{  data.date  }}
+                </div>
+            </div>
+            <div class="settings_holder">
+
+            </div>
+        </div>
+        <div class="profile_storage">
 
         </div>
     </div>
-    <hr>
-
-
 </section>
 {% endblock %}

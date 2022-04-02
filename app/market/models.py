@@ -4,6 +4,8 @@ from app.database import db
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
 from sqlalchemy.orm import relationship
 
+from app.utils import get_image
+
 
 class House(db.Model):
     __tablename__ = "house"
@@ -16,7 +18,7 @@ class House(db.Model):
     user_id = Column(Integer, ForeignKey("user.id"))
     date = Column(DateTime)
     photos = relationship('Photo')
-
+    likes = relationship('Like')
 
     def __init__(self, city, street, house_number, user_id):
         self.city = city
@@ -24,6 +26,9 @@ class House(db.Model):
         self.house_number = house_number
         self.user_id = user_id
         self.date = datetime.datetime.now()
+
+    def get_likes_count(self):
+        return len(self.likes)
 
     def get_cost(self):
         if self.cost is None:
@@ -43,7 +48,8 @@ class House(db.Model):
             'house_number': self.house_number,
             'summary': self.get_summary(),
             'cost': self.get_cost(),
-            'preview': self.get_photos()[-1]
+            'preview': self.get_preview_photo(),
+            'likes_count': self.get_likes_count()
         }
 
     def get_max_info(self):
@@ -60,9 +66,14 @@ class House(db.Model):
     def get_photos(self):
         photos = list()
         for photo in self.photos:
-            photo_path = photo.path
-            photos.append(photo_path)
+            photos.append(photo.path)
         return photos
+
+    def get_preview_photo(self):
+        if len(self.photos) == 0:
+            return get_image(None, 'house')
+        else:
+            return get_image(self.get_photos()[-1], 'house')
 
 
 class Photo(db.Model):
@@ -76,3 +87,14 @@ class Photo(db.Model):
         self.path = path
         self.house_id = house_id
         self.date = datetime.datetime.now()
+
+
+class Like(db.Model):
+    __tablename__ = 'likes'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey('user.id'))
+    house_id = Column(Integer, ForeignKey('house.id'))
+
+    def __init__(self, user_id, house_id):
+        self.user_id = user_id
+        self.house_id = house_id

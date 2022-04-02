@@ -13,6 +13,7 @@ class User(db.Model, UserMixin):
     hash = Column(String(100))
     date_registered = Column(DateTime)
     avatars = relationship('Avatar')
+    likes = relationship('Like')
 
     def __init__(self, worksheet):
         self.name = worksheet['name']

@@ -4,14 +4,25 @@
 {% block content %}
 <section>
     <div class="market_wrapper">
-        <div class="market_position "></div>
-        <div class="market_position "></div>
-        <div class="market_position "></div>
-        <div class="market_position "></div>
-        <div class="market_position "></div>
-        <div class="market_position "></div>
-        <div class="market_position "></div>
-        <div class="market_position "></div>
+        {% for house in data.houses %}
+         <a class='link' href="{{ url_for('market.house_details', house_id=house.id) }}">
+             <div class="market_table ">
+                <div class="table_photo_holder">
+                    <img class="table_photo" src="{{ url_for('static', filename=house.preview) }}">
+                </div>
+                <div class="table_info_holder">
+                    <div class="table_cost_holder">
+                        € {{  house.cost  }}
+                    </div>
+                    <div class="table_likes_holder">
+                        {{  house.likes_count  }}
+                        <img class="very_small_icon" src="{{ url_for('static', filename='images/white_like.png') }}">
+                    </div>
+                </div>
+            </div>
+         {% endfor %}
+         </a>
     </div>
+
 </section>
 {% endblock %}
