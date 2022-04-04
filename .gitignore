@@ -2,3 +2,11 @@ env/
 db.sqlite
 uploads/
 .idea/
+.env
+db_dev.sqlite
+db_prod.sqlite
+db_test.sqlite
+app/__pycache__/__init__.cpython-39.pyc
+__pycache__/
+app/static/images/dsasd.psd
+app/__pycache__/__init__.cpython-39.pyc

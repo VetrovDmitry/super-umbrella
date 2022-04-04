@@ -1,13 +1,20 @@
 from flask import Flask
 from flask_login import LoginManager
+from os import environ
 from .database import db
+from config import DevelopmentConfig, TestingConfig, ProductionConfig
+
+
+CONFIGS = {
+    'dev': DevelopmentConfig,
+    'prod': ProductionConfig,
+    'test': TestingConfig
+}
 
 
 def create_app():
     app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'secret'
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db.sqlite'
-    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
+    app.config.from_object(CONFIGS[environ['APP_MODE']])
 
     db.init_app(app)
 
