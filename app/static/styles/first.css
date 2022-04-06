@@ -12,6 +12,15 @@ div.container {
     width: 350px;
     background: #933C2E
 }
+
+div.change_container {
+    width: 500px;
+    height: 350px;
+    background: green;
+    margin: auto;
+    margin-top: 200px;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 h1 {
     text-align: center;
@@ -131,13 +140,41 @@ div.info_line {
     font-size: 20px;
 }
 
+div.settings_line {
+    width: 85%;
+    height: 75px;
+    background: #2EA907;
+    color: white;
+    font-family: "MV Boli";
+    font-size: 20px;
+    margin: auto;
+    margin-top: 20px;
+    text-align: center;
+}
+
+
 div.settings_holder {
     width: 100%;
     height: 50px;
-    background: yellow;
+    background: transparent;
     float: left;
     margin-top: 10px;
+    align-items: center;
 }
+
+a.settings_button {
+    display: block;
+    width: 100%;
+    height: 35px;
+    background: #2EA907;
+    margin: auto;
+    margin-top: 7px;
+    font-family: "MV Boli";
+    font-size: 20px;
+    color: white;
+    text-align: center;
+}
+
 
 
 div.profile_storage {
@@ -189,12 +226,12 @@ hr {
 }
 
 .setting_bar{
-    background: #FF9052;
-    height: 200px;
-    width: 250px;
+    background: lightgrey;
+    height: 350px;
+    width: 350px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 200px;
+    margin-top: 180px;
 
 }
 
@@ -246,15 +283,20 @@ div.input_message {
 @import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Montserrat:wght@200&display=swap');
 
 input {
-    width: 95%;
+    width: 100%;
     height: 100%;
-    background: #D3EDDE;
-    border-radius: 40px;
-    font-size: 25px;
-    padding-left: 15px;
-    color: #459A6A;
+    font-size: 18px;
+}
+
+p.input_field {
+    width: 250px;
+    height: 40px;
+    background: black;
+    margin: auto;
 
 }
+
+
 div.send_button {
     width: 29%;
     height: 40px;
@@ -703,6 +745,14 @@ img.medium_img {
     height: 192px;
     background: pink;
 }
+
+img.profile_preview {
+    width: 320px;
+    height: 320px;
+    background: lightgrey;
+    object-fit: cover;
+}
+
 
 div.market_table {
     display: block;

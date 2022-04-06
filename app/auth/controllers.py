@@ -81,16 +81,10 @@ def logout():
 @auth.route('/profile')
 @login_required
 def profile():
-    avatar = Avatar.query.filter_by(user_id=current_user.id).first()
-    avatar_path = 'uploads/' + 's'
+
     user = User.query.filter_by(id=current_user.get_id()).first()
-    user_data = {
-        'username': user.username,
-        'name': user.name,
-        'date': str(user.date_registered).split(' ')[0],
-        'email': user.email
-    }
-    return render_template('auth/profile.html', avatar=avatar_path, data=user_data)
+    user_data = user.min_info
+    return render_template('auth/profile.html', data=user_data)
 
 
 @auth.route('/upload-avatar', methods=['POST', 'GET'])
@@ -104,10 +98,7 @@ def upload_avatar():
         filename = secure_filename(filename)
         full_path = os.path.join(UPLOAD_DIR, filename)
         f.save(full_path)
-        avatar = Avatar()
-        avatar.user_id = current_user.id
-        avatar.path = filename
-        avatar.date_upload = datetime.datetime.now()
+        avatar = Avatar(current_user.id, filename)
         db.session.add(avatar)
         db.session.commit()
         return redirect(url_for('auth.profile'))
@@ -143,8 +134,3 @@ def change_password():
         return redirect(url_for("auth.profile"))
 
     return render_template("auth/changepassword.html", form=form)
-
-@auth.route('/valuta')
-def valuta():
-    return render_template('auth/valuta.html')
-

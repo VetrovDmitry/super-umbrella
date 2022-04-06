@@ -2,7 +2,8 @@ import os
 
 
 STANDART_IMAGES = {
-    'house': 'images/standart_photo.png'
+    'house': 'images/standart_photo.png',
+    'profile': 'images/profile_photo.png'
 }
 
 

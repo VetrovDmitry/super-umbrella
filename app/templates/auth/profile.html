@@ -4,7 +4,7 @@
     <div class="profile_container">
         <div class="profile_info">
             <div class="user_avatar_holder">
-
+                <img class="profile_preview" src="{{ url_for('static', filename=data.preview) }}">
             </div>
             <div class="user_info_holder">
                 <div class="info_line">
@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="settings_holder">
-
+                <a class="settings_button" href="{{ url_for('auth.settings') }}">Settings</a>
             </div>
         </div>
         <div class="profile_storage">
