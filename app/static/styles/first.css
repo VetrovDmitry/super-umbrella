@@ -1,6 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Hubballi&display=swap');
-
-
 * {
     text-decoration: none;
 }
@@ -21,7 +18,6 @@ div.change_container {
     margin-top: 200px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Comfortaa&display=swap');
 h1 {
     text-align: center;
     color: white;
@@ -226,9 +222,9 @@ hr {
 }
 
 .setting_bar{
-    background: lightgrey;
+    background: #2EA907;
     height: 350px;
-    width: 350px;
+    width: 375px;
     margin-left: auto;
     margin-right: auto;
     margin-top: 180px;
@@ -279,13 +275,6 @@ div.input_message {
     height: 35px;
     float: left;
     background: transparent;
-}
-@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Montserrat:wght@200&display=swap');
-
-input {
-    width: 100%;
-    height: 100%;
-    font-size: 18px;
 }
 
 p.input_field {
@@ -345,9 +334,6 @@ div.auto_message {
     float: right;
 }
 
-
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@1,200&family=Nunito:wght@300&display=swap');
-
 a.button {
     background: white;
     border-radius: 5px;
@@ -380,12 +366,10 @@ div.setting_banner {
 
 
 div.change_line {
-    margin-top: 20px;
-    margin-bottom: 20px;
-    width: 100%;
-    height: 120px;
-    background: #34D800;
-
+    width: 325px;
+    height: 30px;
+    background: white;
+    float: left;
 }
 
 div.danger_line {
@@ -585,7 +569,12 @@ div.content_box {
     padding: 5px;
 }
 
-
+form.change {
+    background: transparent;
+    width: 95%;
+    height: 35px;
+    margin: auto;
+}
 
 div.photo_holder {
     padding: 2px;
@@ -610,8 +599,6 @@ div.summary_box {
     margin-bottom: 2px;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300&display=swap');
 div.summary_holder {
     display: flex;
     width: 480px;
@@ -652,7 +639,21 @@ div.cost_box {
     height: 165px;
 }
 
+p.change_line {
+    width: 65%;
+    height: 100%;
+    background: yellow;
+    float: left;
+    margin: 0;
+}
 
+p.change_submit {
+    width: 32%;
+    height: 100%;
+    background: blue;
+    float: right;
+    margin: 0;
+}
 
 div.cost_holder {
     display: flex;
@@ -703,7 +704,23 @@ div.label_holder {
     text-align: left;
 }
 
+input {
+    background: white;
+    height: 100%;
+    width: 100%;
+    border-width: 0;
+    font-family: 'Gill Sans Nova';
+    font-size: 20px;
+}
 
+input[type="text" i] {
+   padding: 0;
+}
+
+input[type="password" i] {
+    -webkit-text-security: disc !important;
+    padding: 0;
+}
 
 div.value_holder {
     float: right;
@@ -744,6 +761,7 @@ img.medium_img {
     width: 326px;
     height: 192px;
     background: pink;
+    object-fit: cover;
 }
 
 img.profile_preview {

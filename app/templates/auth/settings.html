@@ -2,24 +2,23 @@
 {% block content %}
 <section>
 <div class="setting_bar">
-    <h1>
-        Settings
-    </h1>
-    <a class="button_s" href="{{ url_for('auth.change_password') }}">
-       <div class="settings_line">
-           Change password
-       </div>
-    </a>
-    <a class="button_s" href="/upload-avatar">
-       <div class="settings_line">
-           Upload avatar
-       </div>
-    </a>
-    <a class="button_s" href="{{ url_for('auth.change_username') }}">
-       <div class="settings_line">
-           Change username
-       </div>
-    </a>
+    <h1 class="parameter_header">Change Username</h1>
+    <form autocomplete="off" class="change" method="post" action="{{ url_for('auth.settings') }}">
+        {{ forms.change_username.hidden_tag() }}
+        <p class="change_line">{{ forms.change_username.new_username(placeholder=data.username) }}</p>
+        <p class="change_submit">{{ forms.change_username.submit() }}</p>
+    </form>
+    <h1 class="parameter_header">Change Password</h1>
+    <form autocomplete="off" class="change" method="post" action="{{ url_for('auth.settings') }}">
+        {{ forms.change_password.hidden_tag() }}
+        <p class="change_line">{{ forms.change_password.new_password(placeholder="New password") }}</p>
+        <p class="change_submit">{{ forms.change_password.submit() }}</p>
+    </form>
+    <form autocomplete="off" class="change" method="post" action="{{ url_for('auth.settings') }}" enctype="multipart/form-data">
+        {{ forms.upload_avatar.hidden_tag() }}
+        <p class="change_line">{{ forms.upload_avatar.avatar() }}</p>
+        <p class="change_submit">{{ forms.upload_avatar.submit() }}</p>
+    </form>
 </div>
 </section>
 {% endblock %}

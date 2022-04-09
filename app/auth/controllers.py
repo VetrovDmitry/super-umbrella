@@ -81,56 +81,19 @@ def logout():
 @auth.route('/profile')
 @login_required
 def profile():
-
     user = User.query.filter_by(id=current_user.get_id()).first()
     user_data = user.min_info
     return render_template('auth/profile.html', data=user_data)
 
 
-@auth.route('/upload-avatar', methods=['POST', 'GET'])
-@login_required
-def upload_avatar():
-    form = UploadAvatarForm()
-
-    if form.validate_on_submit():
-        f = form.avatar.data
-        filename = str(int(time.time() * 1000)) + '.jpg'
-        filename = secure_filename(filename)
-        full_path = os.path.join(UPLOAD_DIR, filename)
-        f.save(full_path)
-        avatar = Avatar(current_user.id, filename)
-        db.session.add(avatar)
-        db.session.commit()
-        return redirect(url_for('auth.profile'))
-
-    return render_template('auth/uploadavatar.html', form=form)
-
-
 @auth.route('/settings')
+@login_required
 def settings():
-    return render_template('auth/settings.html')
-
-
-@auth.route("/change-username", methods=['POST', 'GET'])
-def change_username():
-    form = ChangeUsernameForm()
-
-    if form.validate_on_submit():
-        user = User.query.filter_by(id=current_user.get_id()).first()
-        user.username = form.new_username.data
-        db.session.commit()
-        return redirect(url_for('auth.profile'))
-
-    return render_template("auth/changeusername.html", form=form)
-
-
-@auth.route("/change-password")
-def change_password():
-    form = ChangePasswordForm()
-    if form.validate_on_submit():
-        user = User.query.filter_by(id=current_user.get_id()).first()
-        user.hash = generate_password_hash(form.new_password.data, method='sha256')
-        db.session.commit()
-        return redirect(url_for("auth.profile"))
-
-    return render_template("auth/changepassword.html", form=form)
+    forms = {
+        "change_username": ChangeUsernameForm(),
+        "change_password": ChangePasswordForm(),
+        "upload_avatar": UploadAvatarForm()
+    }
+    user = User.query.get(current_user.id)
+    data = user.min_info
+    return render_template('auth/settings.html', forms=forms, data=data)
