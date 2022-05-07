@@ -3,6 +3,7 @@ import datetime
 from app.database import db
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 from flask_login import UserMixin
 from app.utils import get_image
 
@@ -14,16 +15,15 @@ class User(db.Model, UserMixin):
     username = Column(String(30), unique=True)
     email = Column(String(50))
     hash = Column(String(100))
-    date_registered = Column(DateTime)
+    date_registered = Column(DateTime(timezone=True), server_default=func.now())
     avatars = relationship('Avatar')
     likes = relationship('Like')
 
-    def __init__(self, worksheet):
-        self.name = worksheet['name']
-        self.username = worksheet['username']
-        self.email = worksheet['email']
-        self.hash = worksheet['hash']
-        self.date_registered = worksheet['date']
+    def __init__(self, name: str, username: str, email: str, hash: str):
+        self.name = name
+        self.username = username
+        self.email = email
+        self.hash = hash
 
     def get_photos(self):
         photos = list()
@@ -46,6 +46,32 @@ class User(db.Model, UserMixin):
             "date": self.date_registered.date(),
             "preview": self.get_preview_avatar()
         }
+
+    @classmethod
+    def find_by_username(cls, username):
+        return cls.query.filter_by(username=username).first()
+
+    @classmethod
+    def find_by_id(cls, user_id):
+        return cls.query.filter_by(id=user_id).first()
+
+    @classmethod
+    def find_by_email(cls, email):
+        return cls.query.filter_by(email=email).first()
+
+    @classmethod
+    def check_exists_by_username(cls, username) -> bool:
+        if cls.find_by_username(username):
+            return True
+        else:
+            return False
+
+    @classmethod
+    def check_exists_by_email(cls, email) -> bool:
+        if cls.find_by_email(email):
+            return True
+        else:
+            return False
 
 
 class Avatar(db.Model):

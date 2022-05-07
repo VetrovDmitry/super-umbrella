@@ -1,0 +1,10 @@
+{
+  "API_SPECIFICATIONS": {
+    "API_VERSION": "0.0.1",
+    "TITLE": "Houses API",
+    "DESCRIPTION": "Ultimate project",
+    "OPENAPI_VERSION": "2.0.0",
+    "APISPEC_SWAGGER_URL": "/api-specification.json",
+    "APISPEC_SWAGGER_UI_URL": "/api-ui/"
+  }
+}

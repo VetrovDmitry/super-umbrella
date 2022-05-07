@@ -2,7 +2,7 @@ env/
 db.sqlite
 uploads/
 .idea/
-.env
+app/.env
 db_dev.sqlite
 db_prod.sqlite
 db_test.sqlite

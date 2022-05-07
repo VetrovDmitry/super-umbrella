@@ -1,0 +1,26 @@
+from marshmallow import Schema, post_load, fields, validate
+
+
+class OutputSchema(Schema):
+    message = fields.Str()
+
+
+class NewUserSchema(Schema):
+    name = fields.Str()
+    username = fields.Str()
+    email = fields.Email()
+    password = fields.Str()
+
+    @property
+    def data(self) -> dict:
+        return {
+            "name": self.name,
+            "username": self.username,
+            "email": self.email,
+            "password": self.password
+        }
+
+    @post_load
+    def prepare_username(self, in_data, **kwargs):
+        in_data["username"] = in_data["username"].lower().strip().replace(" ", "_")
+        return in_data

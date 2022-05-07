@@ -12,6 +12,21 @@ class SignupForm(FlaskForm):
     repeat_password = PasswordField('repeat password', validators=[DataRequired()])
     submit = SubmitField('send')
 
+    def check_passwords(self) -> bool:
+        if self.repeat_password != self.password:
+            return False
+        else:
+            return True
+
+    @property
+    def data(self) -> dict:
+        return {
+            'name': self.name,
+            'username': self.username,
+            'email': self.email,
+            'password': self.password
+        }
+
 
 class LoginForm(FlaskForm):
     email = StringField("email", validators=[Email()])
