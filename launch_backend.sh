@@ -1,6 +1,6 @@
 export APP_MODE="prod"
 source env/Scripts/activate
-source .env
+source app/.env
 
 export FLASK_APP=app
 
@@ -13,4 +13,4 @@ then
 fi
 
 
-flask run
+python app/run.py

@@ -24,3 +24,15 @@ class NewUserSchema(Schema):
     def prepare_username(self, in_data, **kwargs):
         in_data["username"] = in_data["username"].lower().strip().replace(" ", "_")
         return in_data
+
+
+class PublicUserSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+    email = fields.Email()
+    date_registered = fields.DateTime()
+    username = fields.Str()
+
+
+class PublicUsersSchema(Schema):
+    users = fields.List(fields.Nested(PublicUserSchema))

@@ -1,11 +1,12 @@
 import datetime
 
-from app.database import db
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_login import UserMixin
-from app.utils import get_image
+
+from utils import get_image
+from database import db
 
 
 class User(db.Model, UserMixin):
@@ -47,6 +48,16 @@ class User(db.Model, UserMixin):
             "preview": self.get_preview_avatar()
         }
 
+    @property
+    def public_json(self) -> dict:
+        return {
+            'id': self.id,
+            'name': self.name,
+            'email': self.email,
+            'date_registered': self.date_registered.isoformat(),
+            'username': self.username
+        }
+
     @classmethod
     def find_by_username(cls, username):
         return cls.query.filter_by(username=username).first()
@@ -60,18 +71,8 @@ class User(db.Model, UserMixin):
         return cls.query.filter_by(email=email).first()
 
     @classmethod
-    def check_exists_by_username(cls, username) -> bool:
-        if cls.find_by_username(username):
-            return True
-        else:
-            return False
-
-    @classmethod
-    def check_exists_by_email(cls, email) -> bool:
-        if cls.find_by_email(email):
-            return True
-        else:
-            return False
+    def find_all(cls):
+        return cls.query.all()
 
 
 class Avatar(db.Model):

@@ -8,7 +8,7 @@ from . import models
 from . import forms
 
 from database import db
-from app.chat.models import Member
+from chat.models import Member
 import os
 
 
@@ -32,6 +32,12 @@ class UserController:
         else:
             return {'status': False, 'output': 'email: %s does not exist' % email}
 
+    def check_user_exists(self, user_id: int) -> dict:
+        if self.model.find_by_id(user_id):
+            return {'status': True, 'output': 'user_id: %s exists' % user_id}
+        else:
+            return {'status': False, 'output': 'user_id: %s does not exist' % user_id}
+
     def __new_user(self, name: str, username: str, email: str, password: str) -> int:
         hash = generate_password_hash(password, method='sha256')
         new_user = self.model(name=name,
@@ -54,8 +60,6 @@ class UserController:
         )
         return {'message': 'user %s was created' % new_user_id}
 
-
-
     def signup(self, user_data: dict) -> dict:
         new_user_id = self.__new_user(name=user_data['name'],
                               username=user_data['username'],
@@ -66,6 +70,15 @@ class UserController:
         db.session.commit()
         return {'output': 'user %s signed up' % new_user_id}
 
+    def get_user_public_info(self, user_id: int) -> dict:
+        return self.model.find_by_id(user_id).public_json
+
+    def get_users_public_info(self) -> dict:
+        users_info = list()
+        users = self.model.find_all()
+        for user in users:
+            users_info.append(user.public_json)
+        return {'users': users_info}
 
 
 auth = Blueprint('auth', __name__)
