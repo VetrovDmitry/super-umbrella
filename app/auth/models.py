@@ -1,5 +1,5 @@
 import datetime
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -17,14 +17,14 @@ class User(db.Model, UserMixin):
     email = Column(String(50))
     hash = Column(String(100))
     date_registered = Column(DateTime(timezone=True), server_default=func.now())
-    avatars = relationship('Avatar')
-    likes = relationship('Like')
 
-    def __init__(self, name: str, username: str, email: str, hash: str):
+    member = relationship('Member', back_populates='user', uselist=False)
+
+    def __init__(self, name: str, username: str, email: str, password: str):
         self.name = name
         self.username = username
         self.email = email
-        self.hash = hash
+        self.hash = self.create_hash(password)
 
     def get_photos(self):
         photos = list()
@@ -37,6 +37,13 @@ class User(db.Model, UserMixin):
             return get_image(None, 'profile')
         else:
             return get_image(self.get_photos()[-1], 'profile')
+
+    @staticmethod
+    def create_hash(password: str) -> str:
+        return generate_password_hash(password, method='sha256')
+
+    def check_password(self, password: str) -> bool:
+        return check_password_hash(self.hash, password)
 
     @property
     def min_info(self):
@@ -59,7 +66,7 @@ class User(db.Model, UserMixin):
         }
 
     @classmethod
-    def find_by_username(cls, username):
+    def find_by_username(cls, username: str):
         return cls.query.filter_by(username=username).first()
 
     @classmethod

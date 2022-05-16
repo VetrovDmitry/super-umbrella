@@ -36,3 +36,12 @@ class PublicUserSchema(Schema):
 
 class PublicUsersSchema(Schema):
     users = fields.List(fields.Nested(PublicUserSchema))
+
+
+class LoginSchema(Schema):
+    username = fields.Str()
+    password = fields.Str()
+
+
+class TokenSchema(Schema):
+    access_token = fields.Str()

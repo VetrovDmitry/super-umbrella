@@ -1,7 +1,8 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from flask.views import MethodView
-from werkzeug.security import generate_password_hash, check_password_hash
+from flask_jwt_extended import create_access_token, create_refresh_token
+from datetime import timedelta
 from werkzeug.utils import secure_filename
 import datetime, time
 from . import models
@@ -38,12 +39,22 @@ class UserController:
         else:
             return {'status': False, 'output': 'user_id: %s does not exist' % user_id}
 
+    def check_user_login(self, username: str, password: str) -> dict:
+        username_checking = self.check_username_exists(username)
+        if not username_checking['status']:
+            return {'status': False, 'output': username_checking['output']}
+
+        user = self.model.find_by_username(username)
+        if not user.check_password(password):
+            return {'status': False, 'output': 'wrong password'}
+
+        return {'status': True, 'output': 'everything is right'}
+
     def __new_user(self, name: str, username: str, email: str, password: str) -> int:
-        hash = generate_password_hash(password, method='sha256')
         new_user = self.model(name=name,
                               username=username,
                               email=email,
-                              hash=hash)
+                              password=password)
         db.session.add(new_user)
         db.session.commit()
         return new_user.id
@@ -79,6 +90,11 @@ class UserController:
         for user in users:
             users_info.append(user.public_json)
         return {'users': users_info}
+
+    @staticmethod
+    def create_token(username: str, expires=30) -> dict:
+        token = create_access_token(identity=username, expires_delta=timedelta(minutes=expires))
+        return {'access_token': token}
 
 
 auth = Blueprint('auth', __name__)

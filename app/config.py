@@ -10,6 +10,7 @@ class Config:
     CSRF_ENABLED = True
     SECRET_KEY = environ['SECRET_KEY']
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    JWT_SECRET_KEY = environ['JWT_SECRET_KEY']
 
 
 class DevelopmentConfig(Config):

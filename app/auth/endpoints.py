@@ -100,3 +100,28 @@ class SignupApi(MethodResource, Resource):
         if email_checking['status']:
             raise UserError(email_checking['output'], 409)
 
+
+
+
+class TokenApi(MethodResource, Resource):
+    __controller = controllers.UserController()
+    __schemas = {
+        'request': schemas.LoginSchema,
+        'output': schemas.TokenSchema
+    }
+    decorators = [error_handler]
+
+    @doc(tags=[AUTH],
+         summary='creates authorization token',
+         description='Receives user login information')
+    @use_kwargs(__schemas['request'])
+    @marshal_with(__schemas['output'])
+    def post(self, **user_data):
+
+        login_checking = self.__controller.check_user_login(user_data['username'], user_data['password'])
+        if not login_checking['status']:
+            raise UserError(login_checking['output'], 401)
+
+        result = self.__controller.create_token(user_data['username'])
+        output = self.__schemas['output']().load(data=result)
+        return output

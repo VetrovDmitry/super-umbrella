@@ -2,6 +2,7 @@ from flask import Flask
 from flask_login import LoginManager
 from flask_apispec.extension import FlaskApiSpec
 from flask_restful import Api
+from flask_jwt_extended import JWTManager
 from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from os import environ
@@ -45,6 +46,7 @@ def add_views(app):
 def create_api_and_doc(app):
     api = Api(app)
     docs = FlaskApiSpec(app)
+    JWTManager(app)
 
     from auth import endpoints as auth_endpoints
     api.add_resource(auth_endpoints.UserApi, '/api/user')
@@ -53,6 +55,8 @@ def create_api_and_doc(app):
     docs.register(auth_endpoints.UserSettingsApi)
     api.add_resource(auth_endpoints.UsersApi, '/api/users')
     docs.register(auth_endpoints.UsersApi)
+    api.add_resource(auth_endpoints.TokenApi, '/api/token')
+    docs.register(auth_endpoints.TokenApi)
 
     return app
 
