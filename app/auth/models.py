@@ -16,7 +16,8 @@ class User(db.Model, UserMixin):
     username = Column(String(30), unique=True)
     email = Column(String(50))
     hash = Column(String(100))
-    date_registered = Column(DateTime(timezone=True), server_default=func.now())
+    time_created = Column(DateTime(timezone=True), server_default=func.now())
+    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     member = relationship('Member', back_populates='user', uselist=False)
 

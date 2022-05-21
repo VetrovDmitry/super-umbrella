@@ -19,8 +19,6 @@ class Member(db.Model):
     sex = Column(Enum(HumanGenders))
 
     user = relationship('User', back_populates='member', uselist=False)
-    avatars = relationship('Avatar')
-    likes = relationship('Like')
 
     def __init__(self, user_id: int, birth_date: datetime.date, sex: HumanGenders):
         self.id = user_id

@@ -24,7 +24,7 @@ API_CONFIG = read_api_config()
 
 
 def add_views(app):
-    import auth.controllers as auth_blueprint
+    import auth.views as auth_blueprint
 
     app.register_blueprint(auth_blueprint.auth)
 
@@ -36,7 +36,7 @@ def add_views(app):
 
     app.register_blueprint(main_blueprint.main)
 
-    import market.controllers as market_blueprint
+    import market.views as market_blueprint
 
     app.register_blueprint(market_blueprint.market)
 
@@ -57,6 +57,12 @@ def create_api_and_doc(app):
     docs.register(auth_endpoints.UsersApi)
     api.add_resource(auth_endpoints.TokenApi, '/api/token')
     docs.register(auth_endpoints.TokenApi)
+    api.add_resource(auth_endpoints.SignupApi, '/api/signup')
+    docs.register(auth_endpoints.SignupApi)
+
+    from market import endpoints as market_endpoints
+    api.add_resource(market_endpoints.CreateHouseApi, '/api/create-house')
+    docs.register(market_endpoints.CreateHouseApi)
 
     return app
 
@@ -81,8 +87,10 @@ def create_app():
     login_manager.init_app(app)
 
     from auth.models import User
-    from chat.models import Member, Membership, Room, Message
+    from chat.models import Membership, Room, Message
     from market.models import House, Photo
+    from main.models import Member
+
 
     @login_manager.user_loader
     def load_user(user_id):

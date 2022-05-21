@@ -5,17 +5,6 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 
 
-class Member(db.Model):
-    __tablename__ = 'member'
-    id = Column(Integer, primary_key=True)
-    user_id = Column(Integer, ForeignKey('user.id'))
-    memberships = relationship('Membership')
-    messages = relationship('Message')
-
-    def __init__(self, user_id):
-        self.user_id = user_id
-
-
 class Membership(db.Model):
     __tablename__ = "membership"
     id = Column(Integer, primary_key=True)

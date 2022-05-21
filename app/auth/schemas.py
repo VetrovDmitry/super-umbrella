@@ -45,3 +45,12 @@ class LoginSchema(Schema):
 
 class TokenSchema(Schema):
     access_token = fields.Str()
+
+
+class SignupSchema(Schema):
+    name = fields.Str()
+    username = fields.Str()
+    email = fields.Email()
+    password = fields.Str()
+    birth_date = fields.Date()
+    sex = fields.Str(validate=validate.OneOf(['Male', 'Female']))

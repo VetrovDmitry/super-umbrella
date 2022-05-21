@@ -3,6 +3,7 @@ import datetime
 from database import db
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
 from sqlalchemy.orm import relationship
+from sqlalchemy.sql import func
 
 from utils import get_image
 
@@ -16,16 +17,23 @@ class House(db.Model):
     summary = Column(String)
     cost = Column(Float)
     user_id = Column(Integer, ForeignKey("user.id"))
-    date = Column(DateTime)
+    time_created = Column(DateTime(timezone=True), server_default=func.now())
+    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
+
     photos = relationship('Photo')
     likes = relationship('Like')
 
-    def __init__(self, city, street, house_number, user_id):
+    def __init__(self, city: str, street: str, house_number: str, user_id: int):
         self.city = city
         self.street = street
         self.house_number = house_number
         self.user_id = user_id
         self.date = datetime.datetime.now()
+
+    def create(self):
+        db.session.add(self)
+        db.session.commit()
+        return self
 
     def get_likes_count(self):
         return len(self.likes)

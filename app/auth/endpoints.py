@@ -1,7 +1,6 @@
 from flask_restful import Resource
 from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
-from flask_login import current_user
 
 from . import controllers
 from . import schemas
@@ -82,9 +81,10 @@ AUTH = 'Authorization operations'
 class SignupApi(MethodResource, Resource):
     __controller = controllers.UserController()
     __schemas = {
-        'request': schemas.NewUserSchema,
+        'request': schemas.SignupSchema,
         'output': schemas.OutputSchema
     }
+    decorators = [error_handler]
 
     @doc(tags=[AUTH],
          summary='uploads new User with Member',
@@ -100,7 +100,9 @@ class SignupApi(MethodResource, Resource):
         if email_checking['status']:
             raise UserError(email_checking['output'], 409)
 
-
+        result = self.__controller.signup(user_data)
+        output = self.__schemas['output']().load(data=result)
+        return output, 201
 
 
 class TokenApi(MethodResource, Resource):

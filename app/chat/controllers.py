@@ -1,10 +1,11 @@
 from flask import Blueprint, render_template, redirect, url_for, flash
 from flask_login import login_required, current_user
 from functools import wraps
-from .models import db, Member, Membership, Room, Message
+from .models import db, Membership, Room, Message
 from .forms import (CreateRoomForm, JoinRoomForm, LeaveRoomForm,
                     TextMessageForm, ChangeTitleForm, ChangeDetailsForm,
                     DeleteRoomForm)
+from main.models import Member
 from auth.models import User
 
 
