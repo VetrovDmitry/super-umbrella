@@ -75,7 +75,7 @@ class UsersApi(MethodResource, Resource):
         return response
 
 
-AUTH = 'Authorization operations'
+AUTH = 'Authentication operations'
 
 
 class SignupApi(MethodResource, Resource):

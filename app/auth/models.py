@@ -4,6 +4,7 @@ from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from flask_login import UserMixin
+from uuid import uuid4
 
 from utils import get_image
 from database import db
@@ -20,6 +21,7 @@ class User(db.Model, UserMixin):
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
     member = relationship('Member', back_populates='user', uselist=False)
+    device = relationship("Device", back_populates='user', uselist=True)
 
     def __init__(self, name: str, username: str, email: str, password: str):
         self.name = name
@@ -93,3 +95,56 @@ class Avatar(db.Model):
         self.user_id =user_id
         self.path = path
         self.date_upload = datetime.datetime.now()
+
+
+class Device(db.Model):
+    __tablename__ = "device"
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String(80), nullable=False, unique=True)
+    key = Column(String(80), unique=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    requests = Column(Integer, default=0)
+
+    user = relationship("User", back_populates='device', uselist=False)
+
+    def __init__(self, name: str, user_id: int):
+        self.name = name
+        self.user_id = user_id
+        self.key = uuid4().hex
+
+    def update(self):
+        db.session.commit()
+
+    def upload(self):
+        db.session.add(self)
+        self.update()
+
+    def delete(self):
+        db.session.delete(self)
+        self.update()
+
+    def add_request(self):
+        self.requests += 1
+        self.update()
+
+    @property
+    def info(self) -> dict:
+        return {
+            "id": self.id,
+            "name": self.name,
+            "user_id": self.user_id,
+            "key": self.key
+        }
+
+    @classmethod
+    def find_by_name(cls, name: str):
+        return cls.query.filter_by(name=name).first()
+
+    @classmethod
+    def find_by_key(cls, key: str):
+        return cls.query.filter_by(key=key).first()
+
+    @classmethod
+    def find_by_id(cls, _id: int):
+        return cls.query.filter_by(id=_id).first()

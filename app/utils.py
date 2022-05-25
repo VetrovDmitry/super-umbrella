@@ -1,7 +1,7 @@
 import json
 import os
 from functools import wraps
-
+from dataclasses import dataclass
 
 STANDART_IMAGES = {
     'house': 'images/standart_photo.png',
@@ -30,6 +30,12 @@ class UserError(Exception):
     def __init__(self, message="problems with user", code=400):
         self.message = message
         self.code = code
+
+
+@dataclass
+class DeviceError(Exception):
+    message: str = 'problems with device'
+    code: int = 400
 
 
 #  Handlers

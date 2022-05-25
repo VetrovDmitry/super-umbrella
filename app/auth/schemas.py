@@ -54,3 +54,15 @@ class SignupSchema(Schema):
     password = fields.Str()
     birth_date = fields.Date()
     sex = fields.Str(validate=validate.OneOf(['Male', 'Female']))
+
+
+class NewDeviceSchema(Schema):
+    name = fields.Str()
+    user_id = fields.Int()
+
+
+class DeviceSchema(Schema):
+    id = fields.Int()
+    name = fields.Str()
+    key = fields.Str()
+    user_id = fields.Int()

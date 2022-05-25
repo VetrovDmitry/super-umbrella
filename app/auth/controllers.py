@@ -1,10 +1,14 @@
 from flask_jwt_extended import create_access_token, create_refresh_token
-from datetime import timedelta
+from datetime import timedelta, datetime, timezone
 import datetime, time
+from functools import wraps
+from flask import request
+
 from . import models
 
 from main.models import Member
 from database import db
+from utils import DeviceError
 
 
 
@@ -101,3 +105,53 @@ class UserController:
         return {'access_token': token}
 
 
+class OAuthController(UserController):
+    models = {
+        "device": models.Device,
+    }
+    tz = timezone(timedelta(0))
+
+    #  Checks
+
+    @classmethod
+    def check_device_key(cls, key: str) -> dict:
+        if cls.models['device'].find_by_key(key):
+            return {'status': True, 'output': f'api_key: {key[:10]}... exists'}
+        return {'status': False, 'output': f'api_key: {key[:10]}... does not exist'}
+
+    #  Create
+
+    @classmethod
+    def create_device(cls, user_id: int, name: str) -> dict:
+        device = cls.models['device'](
+            name=name,
+            user_id=user_id
+        )
+        device.upload()
+        return device.info
+
+    @classmethod
+    def add_device_request(cls, device_key: str):
+        device = cls.models['device'].find_by_key(device_key)
+        device.add_request()
+
+    @classmethod
+    def api_required(cls, func):
+        @wraps(func)
+        def decorator(*args, **kwargs):
+            headers = request.headers
+            if not headers:
+                raise DeviceError('there is no headers', 400)
+
+            api_key = headers.get('X-Api-key', None)
+            if not api_key:
+                raise DeviceError('there is no api-key', 400)
+
+            key_checking = cls.check_device_key(api_key)
+            if not key_checking['status']:
+                raise DeviceError(key_checking['output'], 401)
+
+            cls.add_device_request()
+
+            return func(*args, **kwargs)
+        return decorator
