@@ -108,6 +108,7 @@ class UserController:
 class OAuthController(UserController):
     models = {
         "device": models.Device,
+        "token": models.Token
     }
     tz = timezone(timedelta(0))
 
@@ -118,6 +119,18 @@ class OAuthController(UserController):
         if cls.models['device'].find_by_key(key):
             return {'status': True, 'output': f'api_key: {key[:10]}... exists'}
         return {'status': False, 'output': f'api_key: {key[:10]}... does not exist'}
+
+    @classmethod
+    def check_device_name_exists(cls, name: str) -> dict:
+        if cls.models['device'].find_by_name(name):
+            return {'status': True, 'output': f'device_name: {name} exists'}
+        return {'status': False, 'output': f'device_name: {name} does not exist'}
+
+    @classmethod
+    def check_user_token_exists(cls, user_id: int) -> dict:
+        if cls.models['token'].find_by_user_id(user_id):
+            return {'status': True, 'output': f'user_id: {user_id} already has token'}
+        return {'status': False, 'output': f'user_id: {user_id} does not have a token'}
 
     #  Create
 
@@ -151,7 +164,8 @@ class OAuthController(UserController):
             if not key_checking['status']:
                 raise DeviceError(key_checking['output'], 401)
 
-            cls.add_device_request()
+            cls.add_device_request(api_key)
 
             return func(*args, **kwargs)
+
         return decorator

@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime, timedelta, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship
@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
 
     member = relationship('Member', back_populates='user', uselist=False)
     device = relationship("Device", back_populates='user', uselist=True)
+    tokens = relationship('Token', back_populates='user', uselist=False)
 
     def __init__(self, name: str, username: str, email: str, password: str):
         self.name = name
@@ -54,7 +55,7 @@ class User(db.Model, UserMixin):
             "name": self.name,
             "email": self.email,
             "username": self.username,
-            "date": self.date_registered.date(),
+            "date": self.time_created.date(),
             "preview": self.get_preview_avatar()
         }
 
@@ -64,7 +65,7 @@ class User(db.Model, UserMixin):
             'id': self.id,
             'name': self.name,
             'email': self.email,
-            'date_registered': self.date_registered.isoformat(),
+            'date_registered': self.time_created.isoformat(),
             'username': self.username
         }
 
@@ -148,3 +149,44 @@ class Device(db.Model):
     @classmethod
     def find_by_id(cls, _id: int):
         return cls.query.filter_by(id=_id).first()
+
+
+class Token(db.Model):
+    __tablename__ = 'token'
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    access_token = Column(String, unique=True)
+    expires = Column(DateTime(timezone=True))
+
+    user = relationship("User", back_populates='tokens', uselist=False)
+
+    def __init__(self, user_id: int, token: str, expires: datetime):
+        self.user_id = user_id
+        self.access_token = token
+        self.expires = expires
+
+    def update(self):
+        db.session.commit()
+        return self
+
+    def upload(self):
+        db.session.add(self)
+        return self.update()
+
+    def delete(self):
+        db.session.delete(self)
+        self.update()
+        return
+
+    def update_data(self, token: str, expires: datetime):
+        self.access_token = token
+        self.expires = expires
+        return self.update()
+
+    @classmethod
+    def find_by_token(cls, token: str):
+        return cls.query.filter_by(access_token=token).first()
+
+    @classmethod
+    def find_by_user_id(cls, user_id: int):
+        return cls.query.filter_by(user_id=user_id).first()

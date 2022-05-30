@@ -4,6 +4,11 @@ from flask_apispec.views import MethodResource
 
 from . import controllers
 from . import schemas
+from auth import controllers as auth_controllers
+from utils import UserError, DeviceError, error_handler, device_header
+
+
+api_required = auth_controllers.OAuthController.api_required
 
 
 MARKET = 'Market operations'
@@ -15,10 +20,13 @@ class CreateHouseApi(MethodResource, Resource):
         'request': schemas.NewHouseSchema,
         'output': schemas.OutputSchema
     }
+    decorators = [api_required,
+                  error_handler]
 
     @doc(tags=[MARKET],
          summary='uploads new House to market',
-         descirption='Receives House info')
+         descirption='Receives House info',
+         security=[device_header])
     @use_kwargs(__schemas['request'])
     @marshal_with(__schemas['output'])
     def post(self, **house_data):

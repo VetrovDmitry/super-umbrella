@@ -9,7 +9,8 @@ from os import environ
 from dotenv import load_dotenv
 from database import db
 import config
-from utils import read_api_config
+
+from utils import read_api_config, api_key_scheme, jwt_scheme
 
 
 load_dotenv()
@@ -44,24 +45,39 @@ def add_views(app):
 
 
 def create_api_and_doc(app):
-    api = Api(app)
+
+    spec = APISpec(
+        title=API_CONFIG['TITLE'],
+        version=API_CONFIG['API_VERSION'],
+        plugins=[MarshmallowPlugin()],
+        openapi_version=API_CONFIG['OPENAPI_VERSION']
+    )
+    spec.components.security_scheme('apiKeyAuth', api_key_scheme)
+
+    app.config.update({
+        'APISPEC_SPEC': spec,
+        'APISPEC_SWAGGER_URL': API_CONFIG['APISPEC_SWAGGER_URL'],
+        'APISPEC_SWAGGER_UI_URL': API_CONFIG['APISPEC_SWAGGER_UI_URL']
+    })
+
+    api = Api(app, prefix='/api')
     docs = FlaskApiSpec(app)
     JWTManager(app)
 
+    def add_component(component, route):
+        api.add_resource(component, route)
+        docs.register(component)
+
     from auth import endpoints as auth_endpoints
-    api.add_resource(auth_endpoints.UserApi, '/api/user')
-    docs.register(auth_endpoints.UserApi)
-    api.add_resource(auth_endpoints.UserSettingsApi, '/api/users/<int:user_id>')
-    docs.register(auth_endpoints.UserSettingsApi)
-    api.add_resource(auth_endpoints.UsersApi, '/api/users')
-    docs.register(auth_endpoints.UsersApi)
-    api.add_resource(auth_endpoints.TokenApi, '/api/token')
-    docs.register(auth_endpoints.TokenApi)
-    api.add_resource(auth_endpoints.SignupApi, '/api/signup')
-    docs.register(auth_endpoints.SignupApi)
+    add_component(auth_endpoints.UserApi, '/user')
+    add_component(auth_endpoints.UserSettingsApi, '/users/<int:user_id>')
+    add_component(auth_endpoints.UsersApi, '/users')
+    add_component(auth_endpoints.TokenApi, '/token')
+    add_component(auth_endpoints.SignupApi, '/signup')
+    add_component(auth_endpoints.CreateDeviceApi, '/create-device')
 
     from market import endpoints as market_endpoints
-    api.add_resource(market_endpoints.CreateHouseApi, '/api/create-house')
+    api.add_resource(market_endpoints.CreateHouseApi, '/create-house')
     docs.register(market_endpoints.CreateHouseApi)
 
     return app
@@ -70,16 +86,7 @@ def create_api_and_doc(app):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(CONFIGS[environ['APP_MODE']])
-    app.config.update({
-        'APISPEC_SPEC': APISpec(
-            title=API_CONFIG['TITLE'],
-            version=API_CONFIG['API_VERSION'],
-            plugins=[MarshmallowPlugin()],
-            openapi_version=API_CONFIG['OPENAPI_VERSION']
-        ),
-        'APISPEC_SWAGGER_URL': API_CONFIG['APISPEC_SWAGGER_URL'],
-        'APISPEC_SWAGGER_UI_URL': API_CONFIG['APISPEC_SWAGGER_UI_URL']
-    })
+
     db.init_app(app)
 
     login_manager = LoginManager()
