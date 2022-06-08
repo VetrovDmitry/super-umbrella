@@ -53,6 +53,7 @@ def create_api_and_doc(app):
         openapi_version=API_CONFIG['OPENAPI_VERSION']
     )
     spec.components.security_scheme('apiKeyAuth', api_key_scheme)
+    spec.components.security_scheme('JWT', jwt_scheme)
 
     app.config.update({
         'APISPEC_SPEC': spec,

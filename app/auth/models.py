@@ -160,9 +160,9 @@ class Token(db.Model):
 
     user = relationship("User", back_populates='tokens', uselist=False)
 
-    def __init__(self, user_id: int, token: str, expires: datetime):
+    def __init__(self, user_id: int, access_token: str, expires: datetime):
         self.user_id = user_id
-        self.access_token = token
+        self.access_token = access_token
         self.expires = expires
 
     def update(self):

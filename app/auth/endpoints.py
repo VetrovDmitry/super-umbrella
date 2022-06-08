@@ -4,11 +4,11 @@ from flask_apispec.views import MethodResource
 
 from . import controllers
 from . import schemas
-from utils import UserError, DeviceError, error_handler, device_header
+from utils import UserError, DeviceError, error_handler, device_header, user_header
 
 
 api_required = controllers.OAuthController.api_required
-
+user_required = controllers.OAuthController.user_required
 
 ADMIN = 'Admin operations'
 
@@ -19,10 +19,16 @@ class CreateDeviceApi(MethodResource):
         'request': schemas.NewDeviceSchema,
         'output': schemas.DeviceSchema
     }
+    decorators = [
+        user_required,
+        api_required,
+        error_handler
+    ]
 
     @doc(tags=[ADMIN],
          summary='uploads new Device entity',
-         description='Receives Device info')
+         description='Receives Device info',
+         security=[device_header, user_header])
     @use_kwargs(__schemas['request'])
     @marshal_with(__schemas['output'], code=201)
     def post(self, **device_data):
@@ -46,15 +52,17 @@ class UserApi(MethodResource):
         'request': schemas.NewUserSchema,
         'output': schemas.OutputSchema
     }
-    decorators = [api_required,
-                  error_handler]
+    decorators = [
+        api_required,
+        error_handler
+    ]
 
     @doc(tags=[USER],
          summary='uploads new User',
          description='Receives minimal personal User info',
          security=[device_header])
     @use_kwargs(__schemas['request'])
-    @marshal_with(__schemas['output'])
+    @marshal_with(__schemas['output'], code=201)
     def post(self, **user_data):
 
         username_checking = self.__controller.check_username_exists(user_data['username'])
@@ -77,6 +85,7 @@ class UserSettingsApi(MethodResource):
         'output': schemas.OutputSchema
     }
     decorators = [
+        user_required,
         api_required,
         error_handler
     ]
@@ -84,8 +93,8 @@ class UserSettingsApi(MethodResource):
     @doc(tags=[USER],
          summary='returns User entity by id',
          desription='Receives user id',
-         security=[device_header])
-    @marshal_with(__schemas['response'])
+         security=[device_header, user_header])
+    @marshal_with(__schemas['response'], code=200)
     def get(self, user_id: int) -> tuple:
         user_checking = self.__controller.check_user_exists(user_id)
         if not user_checking['status']:
@@ -93,7 +102,7 @@ class UserSettingsApi(MethodResource):
 
         result = self.__controller.get_user_public_info(user_id)
         response = self.__schemas['response']().load(data=result)
-        return response
+        return response, 200
 
 
 class UsersApi(MethodResource):
@@ -102,6 +111,7 @@ class UsersApi(MethodResource):
         'response': schemas.PublicUsersSchema
     }
     decorators = [
+        user_required,
         api_required,
         error_handler
     ]
@@ -109,12 +119,13 @@ class UsersApi(MethodResource):
     @doc(tags=[USER],
          summary='returns list of User entities',
          desription='...',
-         security=[device_header])
-    @marshal_with(__schemas['response'])
-    def get(self):
+         security=[device_header, user_header])
+    @marshal_with(__schemas['response'], code=200)
+    def get(self, **kwargs):
         result = self.__controller.get_users_public_info()
         response = self.__schemas['response']().load(data=result)
-        return response
+        print(kwargs['current_user'].fullname)
+        return response, 200
 
 
 AUTH = 'Authentication operations'
@@ -134,7 +145,7 @@ class SignupApi(MethodResource):
          description='Receives full User information',
          security=[device_header])
     @use_kwargs(__schemas['request'])
-    @marshal_with(__schemas['output'])
+    @marshal_with(__schemas['output'], code=201)
     def post(self, **user_data):
         username_checking = self.__controller.check_username_exists(user_data['username'])
         if username_checking['status']:
@@ -150,7 +161,7 @@ class SignupApi(MethodResource):
 
 
 class TokenApi(MethodResource):
-    __controller = controllers.UserController()
+    __controller = controllers.OAuthController()
     __schemas = {
         'request': schemas.LoginSchema,
         'output': schemas.TokenSchema
@@ -163,7 +174,7 @@ class TokenApi(MethodResource):
          description='Receives user login information',
          security=[device_header])
     @use_kwargs(__schemas['request'])
-    @marshal_with(__schemas['output'])
+    @marshal_with(__schemas['output'], code=201)
     def post(self, **user_data):
 
         login_checking = self.__controller.check_user_login(user_data['username'], user_data['password'])
@@ -172,4 +183,4 @@ class TokenApi(MethodResource):
 
         result = self.__controller.create_token(user_data['username'])
         output = self.__schemas['output']().load(data=result)
-        return output
+        return output, 201

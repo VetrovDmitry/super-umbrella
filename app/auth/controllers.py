@@ -1,6 +1,5 @@
 from flask_jwt_extended import create_access_token, create_refresh_token
 from datetime import timedelta, datetime, timezone
-import datetime, time
 from functools import wraps
 from flask import request
 
@@ -8,7 +7,7 @@ from . import models
 
 from main.models import Member
 from database import db
-from utils import DeviceError
+from utils import DeviceError, UserError
 
 
 
@@ -17,8 +16,7 @@ SECOND_PATH = 'static/uploads/'
 
 
 class UserController:
-    def __init__(self):
-        self.model = models.User
+    model = models.User
 
     def check_username_exists(self, username: str) -> dict:
         if self.model.find_by_username(username):
@@ -99,11 +97,6 @@ class UserController:
             users_info.append(user.public_json)
         return {'users': users_info}
 
-    @staticmethod
-    def create_token(username: str, expires=30) -> dict:
-        token = create_access_token(identity=username, expires_delta=timedelta(minutes=expires))
-        return {'access_token': token}
-
 
 class OAuthController(UserController):
     models = {
@@ -132,7 +125,28 @@ class OAuthController(UserController):
             return {'status': True, 'output': f'user_id: {user_id} already has token'}
         return {'status': False, 'output': f'user_id: {user_id} does not have a token'}
 
+    @classmethod
+    def check_user_token(cls, token: str) -> dict:
+        if cls.models['token'].find_by_token(token):
+            return {'status': True, 'output': f'jwt: {token[:10]} is valid'}
+        return {'status': False, 'output': f'jwt: {token[:10]} is not valid'}
+
     #  Create
+
+    @classmethod
+    def create_token(cls, username: str, delta_expires=30) -> dict:
+        date = datetime.now(cls.tz)
+        delta = timedelta(minutes=30)
+        expires_date = date + delta
+        access_token = create_access_token(identity=username, expires_delta=delta)
+        user = cls.model.find_by_username(username)
+        token = cls.models['token'](
+            user_id=user.id,
+            access_token=access_token,
+            expires=expires_date
+        )
+        token.upload()
+        return {'access_token': access_token}
 
     @classmethod
     def create_device(cls, user_id: int, name: str) -> dict:
@@ -147,6 +161,14 @@ class OAuthController(UserController):
     def add_device_request(cls, device_key: str):
         device = cls.models['device'].find_by_key(device_key)
         device.add_request()
+
+    #  Gets
+
+    @classmethod
+    def get_user_by_token(cls, token: str):
+        token = cls.models['token'].find_by_token(token)
+        user = cls.model.find_by_id(token.user_id)
+        return user
 
     @classmethod
     def api_required(cls, func):
@@ -165,6 +187,33 @@ class OAuthController(UserController):
                 raise DeviceError(key_checking['output'], 401)
 
             cls.add_device_request(api_key)
+
+            return func(*args, **kwargs)
+
+        return decorator
+
+    @classmethod
+    def user_required(cls, func):
+        @wraps(func)
+        def decorator(*args, **kwargs):
+
+            headers = request.headers
+            if not headers:
+                raise DeviceError('there is no headers', 400)
+
+            jwt = headers.get('Jwt', None)
+            if not jwt:
+                raise UserError('There is no jwt', 401)
+
+            token_checking = cls.check_user_token(jwt)
+            if not token_checking['status']:
+                raise UserError(token_checking['output'], 401)
+
+            user = cls.get_user_by_token(jwt)
+            if not user:
+                raise UserError(f"user does not exist", 404)
+
+            kwargs['current_user'] = user
 
             return func(*args, **kwargs)
 

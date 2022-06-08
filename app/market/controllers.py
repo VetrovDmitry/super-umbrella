@@ -2,8 +2,15 @@ from . import models
 
 
 class HouseController:
-    def __init__(self):
-        self.model = models.House
+    model = models.House
+
+    #  Checks
+
+    def check_house_exists(self, house_id: int) -> dict:
+        if self.model.find_by_id(house_id):
+            return {'status': True, 'output': 'house: %s exists' % house_id}
+
+        return {'status': False, 'output': 'house: %s does not exist' % house_id}
 
     #  Creates
 
@@ -25,3 +32,8 @@ class HouseController:
             user_id=house_data['user_id']
         )
         return {'message': f'house: {new_house_id} was created'}
+
+    #  Gets
+
+    def get_house_public_info(self, house_id: int) -> dict:
+        return self.model.find_by_id(house_id).public_info

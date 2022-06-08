@@ -48,7 +48,8 @@ class House(db.Model):
             return 'Summary'
         return self.summary
 
-    def get_min_info(self):
+    @property
+    def public_info(self):
         return {
             'id': self.id,
             'city': self.city,
@@ -56,7 +57,6 @@ class House(db.Model):
             'house_number': self.house_number,
             'summary': self.get_summary(),
             'cost': self.get_cost(),
-            'preview': self.get_preview_photo(),
             'likes_count': self.get_likes_count()
         }
 
@@ -82,6 +82,10 @@ class House(db.Model):
             return get_image(None, 'house')
         else:
             return get_image(self.get_photos()[-1], 'house')
+
+    @classmethod
+    def find_by_id(cls, _id: int):
+        return cls.query.filter_by(id=_id).first()
 
 
 class Photo(db.Model):
