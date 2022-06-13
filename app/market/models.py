@@ -30,26 +30,32 @@ class House(db.Model):
         self.user_id = user_id
         self.date = datetime.datetime.now()
 
-    def create(self):
-        db.session.add(self)
+    def update(self):
         db.session.commit()
-        return self
+
+    def upload(self):
+        db.session.add(self)
+        self.update()
+
+    def delete(self):
+        db.session.delete(self)
+        self.update()
 
     def get_likes_count(self):
         return len(self.likes)
 
     def get_cost(self):
         if self.cost is None:
-            return 'Cost'
-        return str(self.cost)
+            return 0
+        return self.cost
 
     def get_summary(self):
         if self.summary is None:
-            return 'Summary'
+            return ''
         return self.summary
 
     @property
-    def public_info(self):
+    def public_json(self):
         return {
             'id': self.id,
             'city': self.city,
@@ -57,7 +63,8 @@ class House(db.Model):
             'house_number': self.house_number,
             'summary': self.get_summary(),
             'cost': self.get_cost(),
-            'likes_count': self.get_likes_count()
+            'user_id': self.user_id,
+            'time_created': self.time_created.isoformat()
         }
 
     def get_max_info(self):
@@ -86,6 +93,10 @@ class House(db.Model):
     @classmethod
     def find_by_id(cls, _id: int):
         return cls.query.filter_by(id=_id).first()
+
+    @classmethod
+    def find_all(cls):
+        return cls.query.all()
 
 
 class Photo(db.Model):

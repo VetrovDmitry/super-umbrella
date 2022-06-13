@@ -95,7 +95,7 @@ class UserSettingsApi(MethodResource):
          desription='Receives user id',
          security=[device_header, user_header])
     @marshal_with(__schemas['response'], code=200)
-    def get(self, user_id: int) -> tuple:
+    def get(self, user_id: int, **kwargs) -> tuple:
         user_checking = self.__controller.check_user_exists(user_id)
         if not user_checking['status']:
             raise UserError(user_checking['output'], 404)
@@ -124,7 +124,6 @@ class UsersApi(MethodResource):
     def get(self, **kwargs):
         result = self.__controller.get_users_public_info()
         response = self.__schemas['response']().load(data=result)
-        print(kwargs['current_user'].fullname)
         return response, 200
 
 

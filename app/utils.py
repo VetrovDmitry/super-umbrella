@@ -58,6 +58,12 @@ class DeviceError(Exception):
     code: int = 400
 
 
+@dataclass
+class HouseError(Exception):
+    message: str = 'problems with house'
+    code: int = 400
+
+
 #  Handlers
 
 def error_handler(func):
@@ -68,6 +74,8 @@ def error_handler(func):
         except UserError as err:
             return {'error': err.message}, err.code
         except DeviceError as err:
+            return {'error': err.message}, err.code
+        except HouseError as err:
             return {'error': err.message}, err.code
         except Exception as error:
             return {'error': error}, 500

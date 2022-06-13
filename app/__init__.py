@@ -78,8 +78,9 @@ def create_api_and_doc(app):
     add_component(auth_endpoints.CreateDeviceApi, '/create-device')
 
     from market import endpoints as market_endpoints
-    api.add_resource(market_endpoints.CreateHouseApi, '/create-house')
-    docs.register(market_endpoints.CreateHouseApi)
+    add_component(market_endpoints.CreateHouseApi, '/create-house')
+    add_component(market_endpoints.HousesApi, '/houses')
+    add_component(market_endpoints.HouseApi, '/house/<int:house_id>')
 
     return app
 
