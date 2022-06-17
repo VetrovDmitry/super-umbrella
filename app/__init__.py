@@ -7,6 +7,8 @@ from apispec import APISpec
 from apispec.ext.marshmallow import MarshmallowPlugin
 from os import environ
 from dotenv import load_dotenv
+import logging
+
 from database import db
 import config
 
@@ -81,6 +83,7 @@ def create_api_and_doc(app):
     add_component(market_endpoints.CreateHouseApi, '/create-house')
     add_component(market_endpoints.HousesApi, '/houses')
     add_component(market_endpoints.HouseApi, '/house/<int:house_id>')
+    add_component(market_endpoints.SearchHouseApi, '/search-house')
 
     return app
 
@@ -88,7 +91,6 @@ def create_api_and_doc(app):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(CONFIGS[environ['APP_MODE']])
-
     db.init_app(app)
 
     login_manager = LoginManager()
@@ -100,7 +102,6 @@ def create_app():
     from market.models import House, Photo
     from main.models import Member
 
-
     @login_manager.user_loader
     def load_user(user_id):
         return User.query.get(int(user_id))
@@ -111,5 +112,7 @@ def create_app():
     app = add_views(app)
 
     app = create_api_and_doc(app)
+
+    logging.basicConfig(filename='record.log', level=logging.DEBUG)
 
     return app

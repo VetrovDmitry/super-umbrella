@@ -156,13 +156,15 @@ class Token(db.Model):
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("user.id"))
     access_token = Column(String, unique=True)
+    refresh_token = Column(String, unique=True)
     expires = Column(DateTime(timezone=True))
 
     user = relationship("User", back_populates='tokens', uselist=False)
 
-    def __init__(self, user_id: int, access_token: str, expires: datetime):
+    def __init__(self, user_id: int, access_token: str, refresh_token: str, expires: datetime):
         self.user_id = user_id
         self.access_token = access_token
+        self.refresh_token = refresh_token
         self.expires = expires
 
     def update(self):

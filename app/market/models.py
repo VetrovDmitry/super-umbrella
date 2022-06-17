@@ -23,10 +23,12 @@ class House(db.Model):
     photos = relationship('Photo')
     likes = relationship('Like')
 
-    def __init__(self, city: str, street: str, house_number: str, user_id: int):
+    def __init__(self, city: str, street: str, house_number: str, cost: float, summary: str, user_id: int):
         self.city = city
         self.street = street
         self.house_number = house_number
+        self.cost = cost
+        self.summary = summary
         self.user_id = user_id
         self.date = datetime.datetime.now()
 
@@ -97,6 +99,14 @@ class House(db.Model):
     @classmethod
     def find_all(cls):
         return cls.query.all()
+
+    @classmethod
+    def find_by_query(cls, city: str, street: str, house_number: str, cost: int):
+        return cls.query.filter(
+            cls.city.ilike(f"{city}%"),
+            cls.street.ilike(f"{street}%"),
+            cls.house_number.ilike(f"{house_number}%")
+        ).filter_by(cost=cost).all()
 
 
 class Photo(db.Model):

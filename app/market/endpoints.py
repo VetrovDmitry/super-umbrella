@@ -1,6 +1,6 @@
 from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
-
+from flask import current_app
 from . import controllers
 from . import schemas
 from auth import controllers as auth_controllers
@@ -61,6 +61,7 @@ class HousesApi(MethodResource):
 class HouseApi(MethodResource):
     __controller = controllers.HouseController()
     __schemas = {
+        "request": schemas.HouseDetailSchema,
         "response": schemas.HouseSchema,
         "output": schemas.OutputSchema
     }
@@ -71,14 +72,90 @@ class HouseApi(MethodResource):
     ]
 
     @doc(tags=[MARKET],
-         summary="return House info by id",
+         summary="returns House info by id",
          description="Receives house_id",
          security=[device_header, user_header])
     @marshal_with(__schemas['response'], code=200)
     def get(self, house_id, **kwargs):
+
+        current_user = kwargs['current_user']
+
         house_checking = self.__controller.check_house_exists(house_id)
         if not house_checking['status']:
             raise HouseError(house_checking['output'], 404)
+
         result = self.__controller.get_house_public_info(house_id)
+        response = self.__schemas['response']().load(data=result)
+
+        current_app.logger.info(f"server sends to user: {current_user.id} public info of house: {house_id}")
+
+        return response, 200
+
+    @doc(tags=[MARKET],
+         summary="updates House info by id",
+         description="Receives house_id",
+         security=[device_header, user_header])
+    @use_kwargs(__schemas["request"], location='query')
+    @marshal_with(__schemas["output"], code=204)
+    def put(self, house_id, **house_data):
+
+        current_user = house_data["current_user"]
+
+        house_checking = self.__controller.check_house_exists(house_id)
+        if not house_checking['status']:
+            raise HouseError(house_checking['output'], 404)
+
+        owner_checking = self.__controller.check_house_owner(house_id, current_user.id)
+        if not owner_checking['status']:
+            raise HouseError(owner_checking['output'], 403)
+
+        result = self.__controller.change_house_details(house_id, house_data)
+        output = self.__schemas['output']().load(data=result)
+
+        return output, 204
+
+    @doc(tags=[MARKET],
+         summary="delete House by id",
+         descirptions="Receives house_id",
+         security=[device_header, user_header])
+    @marshal_with(__schemas['output'], code=204)
+    def delete(self, house_id, **kwargs):
+
+        current_user = kwargs['current_user']
+
+        house_checking = self.__controller.check_house_exists(house_id)
+        if not house_checking['status']:
+            raise HouseError(house_checking['output'], 404)
+
+        owner_checking = self.__controller.check_house_owner(house_id, current_user.id)
+        if not owner_checking['status']:
+            raise HouseError(owner_checking['output'], 403)
+
+        result = self.__controller.delete_house_by_id(house_id)
+        output = self.__schemas['output']().load(data=result)
+
+        return output, 204
+
+
+class SearchHouseApi(MethodResource):
+    __controller = controllers.HouseController()
+    __schemas = {
+        'response': schemas.HousesSchema,
+        'query': schemas.SearchHouseSchema
+    }
+    decorators = [
+        user_required,
+        api_required,
+        # error_handler
+    ]
+
+    @doc(tags=[MARKET],
+         summary="returns houses by search",
+         description="Receives house query",
+         security=[device_header, user_header])
+    @use_kwargs(__schemas['query'], location='query')
+    @marshal_with(__schemas['response'], code=200)
+    def get(self, **house_data):
+        result = self.__controller.search_house(house_data)
         response = self.__schemas['response']().load(data=result)
         return response, 200

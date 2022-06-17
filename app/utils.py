@@ -2,6 +2,8 @@ import json
 import os
 from functools import wraps
 from dataclasses import dataclass
+from flask import current_app
+
 
 STANDART_IMAGES = {
     'house': 'images/standart_photo.png',
@@ -72,12 +74,16 @@ def error_handler(func):
         try:
             return func(*args, **kwargs)
         except UserError as err:
+            current_app.logger.error(err.message)
             return {'error': err.message}, err.code
         except DeviceError as err:
+            current_app.logger.error(err.message)
             return {'error': err.message}, err.code
         except HouseError as err:
+            current_app.logger.error(err.message)
             return {'error': err.message}, err.code
         except Exception as error:
+            current_app.logger.error(error)
             return {'error': error}, 500
 
     return decorated_view

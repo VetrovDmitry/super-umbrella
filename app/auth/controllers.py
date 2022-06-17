@@ -126,23 +126,48 @@ class OAuthController(UserController):
         return {'status': False, 'output': f'user_id: {user_id} does not have a token'}
 
     @classmethod
-    def check_user_token(cls, token: str) -> dict:
-        if cls.models['token'].find_by_token(token):
-            return {'status': True, 'output': f'jwt: {token[:10]} is valid'}
-        return {'status': False, 'output': f'jwt: {token[:10]} is not valid'}
+    def check_user_token(cls, access_token: str) -> dict:
+        token = cls.models['token'].find_by_token(access_token)
+        if not token:
+            return {'status': False, 'output': f'jwt: {access_token[:10]} is not valid'}
+
+        expires_checking = cls.check_expires(token.expires)
+        if not expires_checking['status']:
+            token.delete()
+            return {'status': False, 'output': f"access_token: {access_token[:10]}... expired"}
+
+        return {'status': True, 'output': f'jwt: {access_token[:10]} is valid'}
+
+    def check_expires(self, date: datetime) -> dict:
+        now = datetime.now(tz=self.tz)
+        if now.time() > date.time() or now.date() > date.date():
+            return {'status': False, 'output': f"is expired"}
+
+        return {'status': True, 'output': "is valid"}
 
     #  Create
 
     @classmethod
-    def create_token(cls, username: str, delta_expires=30) -> dict:
-        date = datetime.now(cls.tz)
-        delta = timedelta(minutes=30)
-        expires_date = date + delta
-        access_token = create_access_token(identity=username, expires_delta=delta)
+    def create_token(cls, username: str, delta_expires=15) -> dict:
+        access_delta = timedelta(minutes=15)
+        refresh_delta = timedelta(hours=4)
+        expires_date = datetime.now(cls.tz) + access_delta
         user = cls.model.find_by_username(username)
+        access_entity = {
+            'id': user.id,
+            'username': user.username
+        }
+        access_token = create_access_token(identity=access_entity, expires_delta=access_delta)
+        refresh_entity = {
+            'id': user.id,
+            'expires': datetime.now(cls.tz) + refresh_delta
+        }
+        refresh_token = create_refresh_token(identity=refresh_entity, expires_delta=refresh_delta)
+
         token = cls.models['token'](
             user_id=user.id,
             access_token=access_token,
+            refresh_token=refresh_token,
             expires=expires_date
         )
         token.upload()
