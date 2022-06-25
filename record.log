@@ -154,3 +154,54 @@ INFO:werkzeug: * Restarting with stat
 WARNING:werkzeug: * Debugger is active!
 INFO:werkzeug: * Debugger PIN: 143-502-995
 INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 143-502-995
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 143-502-995
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:28] "[35m[1mGET /login HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:29] "GET /login?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:29] "GET /login?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:29] "GET /login?__debugger__=yes&cmd=resource&f=ubuntu.ttf HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:29] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:29] "GET /login?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:33] "GET /api-ui/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:33] "[36mGET /flask-apispec/static/swagger-ui.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:33] "[36mGET /flask-apispec/static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:34] "[36mGET /flask-apispec/static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:09:34] "GET /api-specification.json HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:12:36] "[35m[1mGET /api/search-house?city=Mosc HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\79999\\pproject\\lessons\\project\\app\\market\\endpoints.py', reloading
+INFO:werkzeug: * Restarting with stat
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 143-502-995
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:18] "GET /api-ui/ HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:19] "[36mGET /flask-apispec/static/swagger-ui.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:19] "[36mGET /flask-apispec/static/swagger-ui-bundle.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:19] "[36mGET /flask-apispec/static/swagger-ui-standalone-preset.js HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:19] "GET /api-specification.json HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:19] "[36mGET /flask-apispec/static/favicon-32x32.png HTTP/1.1[0m" 304 -
+ERROR:__init__:there is no api-key
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:13:24] "[31m[1mGET /api/search-house?city=Mosc HTTP/1.1[0m" 400 -
+ERROR:__init__:(sqlite3.OperationalError) no such column: token.refresh_token
+[SQL: SELECT token.id AS token_id, token.user_id AS token_user_id, token.access_token AS token_access_token, token.refresh_token AS token_refresh_token, token.expires AS token_expires 
+FROM token 
+WHERE token.access_token = ?
+ LIMIT ? OFFSET ?]
+[parameters: ('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1NDExMTEwMCwianRpIjoiYjdjMmQ0YjQtNDM1Mi00YjEzLTgzODMtMDEzN2M4Mzc2OTY1IiwidHlwZSI6ImFjY2VzcyIsInN1YiI6InN0cmluZyIsIm5iZiI6MTY1NDExMTEwMCwiZXhwIjoxNjU0MTEyOTAwfQ.lhs_8lHw_YVaFyNUYdx_CqXNumzov4-W19dg4TSpEGQ', 1, 0)]
+(Background on this error at: https://sqlalche.me/e/14/e3q8)
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:14:05] "[35m[1mGET /api/search-house?city=Mosc HTTP/1.1[0m" 500 -
+INFO:werkzeug: * Detected change in 'C:\\Users\\79999\\pproject\\lessons\\project\\app\\market\\endpoints.py', reloading
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Restarting with stat
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 143-502-995
+INFO:werkzeug: * Running on http://127.0.0.1:5000/ (Press CTRL+C to quit)
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:14:33] "[35m[1mGET /api/search-house?city=Mosc HTTP/1.1[0m" 500 -
+INFO:werkzeug:127.0.0.1 - - [20/Jun/2022 17:14:35] "[35m[1mGET /api/search-house?city=Mosc HTTP/1.1[0m" 500 -
