@@ -4,10 +4,9 @@ from functools import wraps
 from flask import request
 
 from . import models
-
-from main.models import Member
-from database import db
-from utils import DeviceError, UserError
+from app.database import db
+from app.utils import DeviceError, UserError
+from app.main import models as main_models
 
 
 
@@ -57,7 +56,7 @@ class UserController:
         return new_user.id
 
     def __new_member(self, user_id: int, sex: str, birth_date: datetime.date) -> int:
-        new_member = Member(user_id, birth_date, sex)
+        new_member = main_models.Member(user_id, birth_date, sex)
         db.session.add(new_member)
         db.session.commit()
         return new_member.id

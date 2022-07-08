@@ -3,8 +3,8 @@ import requests
 import os
 
 
-API_URL = 'http://talents-shrt.herokuapp.com/api/'
-API_KEY = 'b72d32fac3fc46988175cdedb1b4bb9f'
+API_URL = ''
+API_KEY = ''
 
 
 class SignupCase(unittest.TestCase):
@@ -59,7 +59,6 @@ class TokenCase(unittest.TestCase):
     def test_wrong_creds_2(self):
         response = requests.post(self.ep_url, headers=self.headers, data=self.wrong_creds_2)
         self.assertEqual(response.status_code, 401)
-
 
 
 if __name__ == '__main__':

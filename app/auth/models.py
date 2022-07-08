@@ -6,8 +6,8 @@ from sqlalchemy.sql import func
 from flask_login import UserMixin
 from uuid import uuid4
 
-from utils import get_image
-from database import db
+from app.utils import get_image
+from app.database import db
 
 
 class User(db.Model, UserMixin):

@@ -1,0 +1,21 @@
+version: '3.5'
+
+services:
+  dev_app_local:
+    container_name: dev_app_local
+    build: ./app
+    image: houses_dev_app
+    restart: always
+    environment:
+      - SECRET_KEY=${SECRET_KEY}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY}
+      - APP_MODE=dev
+      - DB_DEV=${REMOTE_DB}
+      - WORKERS=4
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./app:/dev_app
+
+volumes:
+  dev_app_local:

@@ -4,7 +4,7 @@ from flask_apispec.views import MethodResource
 
 from . import controllers
 from . import schemas
-from utils import UserError, DeviceError, error_handler, device_header, user_header
+from app.utils import UserError, DeviceError, error_handler, device_header, user_header
 
 
 api_required = controllers.OAuthController.api_required

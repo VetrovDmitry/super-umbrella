@@ -5,8 +5,8 @@ from .models import db, Membership, Room, Message
 from .forms import (CreateRoomForm, JoinRoomForm, LeaveRoomForm,
                     TextMessageForm, ChangeTitleForm, ChangeDetailsForm,
                     DeleteRoomForm)
-from main.models import Member
-from auth.models import User
+from app.main.models import Member
+from app.auth.models import User
 
 
 def room_required(func):

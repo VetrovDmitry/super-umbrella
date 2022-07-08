@@ -21,10 +21,14 @@ def get_image(path, mode='house'):
 
 
 def read_api_config():
-    with open('app/api.json', 'r') as json_file:
-        data = json.load(json_file)
-        return data['API_SPECIFICATIONS']
-
+    try:
+        with open('app/api.json', 'r') as json_file:
+            data = json.load(json_file)
+            return data['API_SPECIFICATIONS']
+    except Exception as e:
+        with open('api.json', 'r') as json_file:
+            data = json.load(json_file)
+            return data['API_SPECIFICATIONS']
 
 #  Auth
 

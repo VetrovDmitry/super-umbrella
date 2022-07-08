@@ -1,11 +1,11 @@
 import datetime
 
-from database import db
+from app.database import db
 from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-from utils import get_image
+from app.utils import get_image
 
 
 class House(db.Model):

@@ -1,6 +1,6 @@
 from marshmallow import Schema, post_load, fields, validate
 
-from auth.schemas import OutputSchema
+from app.auth.schemas import OutputSchema
 
 
 class NewHouseSchema(Schema):
