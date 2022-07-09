@@ -1,7 +1,8 @@
 import datetime
+import enum
 
 from app.database import db
-from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float
+from sqlalchemy import Column, Integer, String, DateTime, ForeignKey, Float, Enum
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
@@ -20,7 +21,7 @@ class House(db.Model):
     time_created = Column(DateTime(timezone=True), server_default=func.now())
     time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    photos = relationship('Photo')
+    photos = relationship('Photo', back_populates="house", uselist=True)
     likes = relationship('Like')
 
     def __init__(self, city: str, street: str, house_number: str, cost: float, summary: str, user_id: int):
@@ -109,17 +110,35 @@ class House(db.Model):
         ).filter_by(cost=cost).all()
 
 
+class PhotoTypes(enum.Enum):
+    PNG = 'png'
+    JPG = 'jpg'
+    JPEG = 'jpeg'
+
+    @classmethod
+    def values(cls) -> list:
+        return [cls.PNG.value, cls.JPG.value, cls.JPEG.value]
+
+
 class Photo(db.Model):
     __tablename__ = 'photo'
     id = Column(Integer, primary_key=True)
-    path = Column(String)
+    filename = Column(String, nullable=False, unique=True)
+    file_type = Column(Enum(PhotoTypes), nullable=False)
+    file_id = Column(String, unique=True, nullable=False)
+    url = Column(String, nullable=False)
     house_id = Column(Integer, ForeignKey('house.id'))
-    date = Column(DateTime)
+    time_created = Column(DateTime(timezone=True), server_default=func.now())
+    time_updated = Column(DateTime(timezone=True), onupdate=func.now())
 
-    def __init__(self, path, house_id):
-        self.path = path
+    house = relationship("House", back_populates="photos", uselist=False)
+
+    def __init__(self, house_id: int, filename: str, file_type: enumerate, file_id: str, url: str) -> None:
         self.house_id = house_id
-        self.date = datetime.datetime.now()
+        self.filename = filename
+        self.file_type = PhotoTypes(file_type)
+        self.file_id = file_id
+        self.url = url
 
 
 class Like(db.Model):

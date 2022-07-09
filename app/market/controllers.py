@@ -1,3 +1,5 @@
+import werkzeug.datastructures
+
 from . import models
 
 
@@ -18,6 +20,12 @@ class HouseController:
             return {'status': True, 'output': 'user %s has access to house' % user_id}
 
         return {'status': False, 'output': 'user %s has no access to house' % user_id}
+
+    @staticmethod
+    def check_photo_type(file_type):
+        if file_type in models.PhotoTypes.values():
+            return {'status': True, 'output': f"file_type: {file_type} is valid"}
+        return {'status': False, 'output': f"file_type: {file_type} is not valid"}
 
     #  Creates
 
@@ -46,8 +54,8 @@ class HouseController:
 
     #  Changes
 
-    def __change_house_fields(self, house_id: int, city: str, street: str,
-                              house_number: str, summary: str, cost: float) -> list:
+    def __change_house_fields(self, house_id: int, city: str, street: str, house_number: str, summary: str,
+                              cost: float, photo: werkzeug.datastructures.FileStorage) -> list:
         updated_field = list()
         house = self.model.find_by_id(house_id)
         if city != '':
@@ -65,6 +73,8 @@ class HouseController:
         if cost:
             house.cost = cost
             updated_field.append('cost')
+        if photo:
+
         house.update()
         return updated_field
 
@@ -76,6 +86,7 @@ class HouseController:
             house_number=house_details['house_number'],
             summary=house_details['summary'],
             cost=house_details['cost'],
+            photo=house_details['photo']
         )
         return {'message': f"{updated_fields} of house: {house_id} was updated"}
 
@@ -112,3 +123,16 @@ class HouseController:
             houses.append(house.public_json)
 
         return {'houses': houses}
+
+
+class PhotoController:
+    model = models.Photo
+
+    def upload_photo(self):
+        pass
+
+    def create_photo(self):
+        pass
+
+
+

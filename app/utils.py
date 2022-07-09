@@ -70,6 +70,12 @@ class HouseError(Exception):
     code: int = 400
 
 
+@dataclass
+class FileError(Exception):
+    message: str = 'problems with file'
+    code: int = 400
+
+
 #  Handlers
 
 def error_handler(func):

@@ -1,10 +1,10 @@
 from flask_apispec import marshal_with, doc, use_kwargs
 from flask_apispec.views import MethodResource
-from flask import current_app
+from flask import current_app, request
 from . import controllers
 from . import schemas
 from app.auth import controllers as auth_controllers
-from app.utils import UserError, DeviceError, HouseError, error_handler, device_header, user_header
+from app.utils import UserError, DeviceError, FileError, HouseError, error_handler, device_header, user_header
 
 api_required = auth_controllers.OAuthController.api_required
 user_required = auth_controllers.OAuthController.user_required
@@ -94,8 +94,9 @@ class HouseApi(MethodResource):
     @doc(tags=[MARKET],
          summary="updates House info by id",
          description="Receives house_id",
-         security=[device_header, user_header])
-    @use_kwargs(__schemas["request"], location='query')
+         security=[device_header, user_header],
+         consumes='multipart/form-data')
+    @use_kwargs(__schemas["request"], location='form')
     @marshal_with(__schemas["output"], code=204)
     def put(self, house_id, **house_data):
 
@@ -109,6 +110,13 @@ class HouseApi(MethodResource):
         if not owner_checking['status']:
             raise HouseError(owner_checking['output'], 403)
 
+        file = request.files.get('photo')
+        if file:
+            type_checking = self.__controller.check_photo_type(file.content_type)
+            if type_checking['status']:
+                raise FileError(type_checking['output'])
+
+        house_data['photo'] = file
         result = self.__controller.change_house_details(house_id, house_data)
         output = self.__schemas['output']().load(data=result)
 

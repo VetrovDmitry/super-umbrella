@@ -64,6 +64,7 @@ class HouseDetailSchema(Schema):
     house_number = fields.Str()
     summary = fields.Str()
     cost = fields.Float()
+    photo = fields.Raw(type='file')
 
     @post_load
     def prepare_city(self, in_data, **kwargs):

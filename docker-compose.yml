@@ -1,6 +1,27 @@
 version: '3.5'
 
 services:
+  dev_db_local:
+    container_name: houses_db
+    image: postgres:14.3-alpine
+    restart: always
+    ports:
+      - "15432:5432"
+    environment:
+      - POSTGRES_DB=${POSTGRES_DB}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+
+  pg_admin_local:
+    container_name: houses_pg_admin
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    ports:
+      - "5050:80"
+
   dev_app_local:
     container_name: dev_app_local
     build: ./app
@@ -18,4 +39,5 @@ services:
       - ./app:/dev_app
 
 volumes:
+  dev_db_local:
   dev_app_local:
