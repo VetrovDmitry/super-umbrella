@@ -116,7 +116,7 @@ class PhotoTypes(enum.Enum):
     JPEG = 'jpeg'
 
     @classmethod
-    def values(cls) -> list:
+    def get_values(cls) -> list:
         return [cls.PNG.value, cls.JPG.value, cls.JPEG.value]
 
 
@@ -139,6 +139,17 @@ class Photo(db.Model):
         self.file_type = PhotoTypes(file_type)
         self.file_id = file_id
         self.url = url
+
+    def update(self):
+        db.session.commit()
+
+    def upload(self):
+        db.session.add(self)
+        self.update()
+
+    def delete(self):
+        db.session.delete(self)
+        self.update()
 
 
 class Like(db.Model):

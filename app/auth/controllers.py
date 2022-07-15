@@ -137,8 +137,9 @@ class OAuthController(UserController):
 
         return {'status': True, 'output': f'jwt: {access_token[:10]} is valid'}
 
-    def check_expires(self, date: datetime) -> dict:
-        now = datetime.now(tz=self.tz)
+    @classmethod
+    def check_expires(cls, date: datetime) -> dict:
+        now = datetime.now(tz=cls.tz)
         if now.time() > date.time() or now.date() > date.date():
             return {'status': False, 'output': f"is expired"}
 

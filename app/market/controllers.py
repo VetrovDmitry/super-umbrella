@@ -1,4 +1,7 @@
-import werkzeug.datastructures
+from werkzeug.datastructures import FileStorage
+from base64 import b64encode
+from imagekitio import ImageKit
+from os import getenv
 
 from . import models
 
@@ -23,7 +26,7 @@ class HouseController:
 
     @staticmethod
     def check_photo_type(file_type):
-        if file_type in models.PhotoTypes.values():
+        if file_type in models.PhotoTypes.get_values():
             return {'status': True, 'output': f"file_type: {file_type} is valid"}
         return {'status': False, 'output': f"file_type: {file_type} is not valid"}
 
@@ -55,7 +58,7 @@ class HouseController:
     #  Changes
 
     def __change_house_fields(self, house_id: int, city: str, street: str, house_number: str, summary: str,
-                              cost: float, photo: werkzeug.datastructures.FileStorage) -> list:
+                              cost: float, photo: FileStorage) -> list:
         updated_field = list()
         house = self.model.find_by_id(house_id)
         if city != '':
@@ -74,6 +77,8 @@ class HouseController:
             house.cost = cost
             updated_field.append('cost')
         if photo:
+            PhotoController.add_photo_to_house(house_id, photo)
+            updated_field.append('photo')
 
         house.update()
         return updated_field
@@ -127,12 +132,51 @@ class HouseController:
 
 class PhotoController:
     model = models.Photo
+    allowed_image_type = models.PhotoTypes.get_values()
+    remote_folder = 'houses_photo'
+    imagekit = ImageKit(
+        private_key=getenv('IMAGEKIT_PRIVATE'),
+        public_key=getenv('IMAGEKIT_PUBLIC'),
+        url_endpoint=getenv('IMAGEKIT_URL')
+    )
 
-    def upload_photo(self):
-        pass
+    @staticmethod
+    def extract_file_types(file: FileStorage) -> tuple:
+        return str(file.content_type).split('/')
 
-    def create_photo(self):
-        pass
+    @classmethod
+    def upload_photo(cls, file: FileStorage, filename: str) -> dict:
+        return cls.imagekit.upload_file(
+            file=b64encode(file.read()),
+            file_name=filename,
+            options={'folder': cls.remote_folder}
+        )['response']
+
+    @classmethod
+    def create_photo(cls, house_id: int, filename: str, file_type: enumerate, file_id: str, url: str) -> int:
+        new_photo = cls.model(
+            house_id=house_id,
+            filename=filename,
+            file_type=file_type,
+            file_id=file_id,
+            url=url
+        ).upload()
+        return new_photo.id
+
+    @classmethod
+    def add_photo_to_house(cls, house_id: int, photo: FileStorage) -> dict:
+        uploaded_photo = cls.upload_photo(photo, 'house_photo')
+
+        _, file_type = cls.extract_file_types(photo)
+
+        created_photo_id = cls.create_photo(
+            house_id=house_id,
+            filename=uploaded_photo['name'],
+            file_type=file_type,
+            file_id=uploaded_photo['fileId'],
+            url=uploaded_photo['url']
+        )
+        return {'message': f"photo: {created_photo_id} was created"}
 
 
 

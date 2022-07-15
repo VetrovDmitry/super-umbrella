@@ -136,8 +136,10 @@ class SignupApi(MethodResource):
         'request': schemas.SignupSchema,
         'output': schemas.OutputSchema
     }
-    decorators = [api_required,
-                  error_handler]
+    decorators = [
+        # api_required,
+        error_handler
+    ]
 
     @doc(tags=[AUTH],
          summary='uploads new User with Member',
@@ -165,8 +167,10 @@ class TokenApi(MethodResource):
         'request': schemas.LoginSchema,
         'output': schemas.TokenSchema
     }
-    decorators = [api_required,
-                  error_handler]
+    decorators = [
+        # api_required,
+        error_handler
+    ]
 
     @doc(tags=[AUTH],
          summary='creates authorization token',

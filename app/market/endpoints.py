@@ -20,8 +20,9 @@ class CreateHouseApi(MethodResource):
     }
     decorators = [
         user_required,
-        api_required,
-        error_handler]
+        # api_required,
+        error_handler
+    ]
 
     @doc(tags=[MARKET],
          summary='uploads new House to market',
@@ -67,7 +68,7 @@ class HouseApi(MethodResource):
     }
     decorators = [
         user_required,
-        api_required,
+        # api_required,
         error_handler
     ]
 

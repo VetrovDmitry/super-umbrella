@@ -35,10 +35,7 @@ Create app env variables:
 export APP_MODE=dev
 ```
 ```bash
-export APP_MODE=dev
-```
-```bash
-export FLASK_APP=run,py
+export FLASK_APP=run.py
 ```
 For fast app launching use:
 ```bash
