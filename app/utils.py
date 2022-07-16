@@ -30,6 +30,7 @@ def read_api_config():
             data = json.load(json_file)
             return data['API_SPECIFICATIONS']
 
+
 #  Auth
 
 device_header = {'apiKeyAuth': []}

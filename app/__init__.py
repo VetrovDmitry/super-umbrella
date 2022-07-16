@@ -75,7 +75,7 @@ def create_api_and_doc(app):
 
     from .auth import endpoints as auth_endpoints
     add_component(auth_endpoints.UserApi, '/user')
-    add_component(auth_endpoints.UserSettingsApi, '/users/<int:user_id>')
+    add_component(auth_endpoints.UserSettingsApi, '/user/<int:user_id>')
     add_component(auth_endpoints.UsersApi, '/users')
     add_component(auth_endpoints.TokenApi, '/token')
     add_component(auth_endpoints.SignupApi, '/signup')

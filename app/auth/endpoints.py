@@ -137,7 +137,7 @@ class SignupApi(MethodResource):
         'output': schemas.OutputSchema
     }
     decorators = [
-        # api_required,
+        api_required,
         error_handler
     ]
 
@@ -145,7 +145,7 @@ class SignupApi(MethodResource):
          summary='uploads new User with Member',
          description='Receives full User information',
          security=[device_header])
-    @use_kwargs(__schemas['request'])
+    @use_kwargs(__schemas['request'], location='form')
     @marshal_with(__schemas['output'], code=201)
     def post(self, **user_data):
         username_checking = self.__controller.check_username_exists(user_data['username'])
@@ -168,7 +168,7 @@ class TokenApi(MethodResource):
         'output': schemas.TokenSchema
     }
     decorators = [
-        # api_required,
+        api_required,
         error_handler
     ]
 
@@ -176,7 +176,7 @@ class TokenApi(MethodResource):
          summary='creates authorization token',
          description='Receives user login information',
          security=[device_header])
-    @use_kwargs(__schemas['request'])
+    @use_kwargs(__schemas['request'], location='form')
     @marshal_with(__schemas['output'], code=201)
     def post(self, **user_data):
 
